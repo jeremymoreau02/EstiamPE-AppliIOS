@@ -60,6 +60,7 @@
 		B743A5541E057E9F00A0A233 /* IOSAPPLI */ = {
 			isa = PBXGroup;
 			children = (
+				B7EB2DE21E0895CC000F20AE /* JSON */,
 				B743A56D1E073F6200A0A233 /* Informations du compte */,
 				B743A56A1E070D7000A0A233 /* Selection photo */,
 				B743A5671E05878700A0A233 /* Connexion Et enregistrement */,
@@ -95,6 +96,13 @@
 			children = (
 			);
 			name = "Informations du compte";
+			sourceTree = "<group>";
+		};
+		B7EB2DE21E0895CC000F20AE /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = JSON;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

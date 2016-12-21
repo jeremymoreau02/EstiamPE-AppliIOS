@@ -10,19 +10,19 @@ import UIKit
 
 class InscriptionViewController: UIViewController {
 
-    @IBOutlet var nomChamp: UITextField!
+    @IBOutlet weak var nomChamp: UITextField!
     
-    @IBOutlet var prenomChamp: UITextField!
+    @IBOutlet weak var prenomChamp: UITextField!
     
-    @IBOutlet var datenaiChamp: UITextField!
+    @IBOutlet weak var datenaiChamp: UITextField!
     
-    @IBOutlet var emailChamp: UITextField!
+    @IBOutlet weak var emailChamp: UITextField!
     
-    @IBOutlet var pseudoChamp: UITextField!
+    @IBOutlet weak var pseudoChamp: UITextField!
     
-    @IBOutlet var mdpChamp: UITextField!
+    @IBOutlet weak var mdpChamp: UITextField!
     
-    @IBOutlet var remdpChamp: UITextField!
+    @IBOutlet weak var repmdpChamp: UITextField!
     
     
     override func viewDidLoad() {
@@ -44,17 +44,17 @@ class InscriptionViewController: UIViewController {
         //var nom:NSString = nomChamp.text
         //var utilisateur:Struct_Utilisateur()
         //utilisateur.nom = nomChamp.text
-        let nom = nomChamp.text
-        let prenom = prenomChamp.text
-        let datenai = datenaiChamp.text
-        let email = emailChamp.text
-        let pseudo = pseudoChamp.text
-        let mdp = mdpChamp.text
-        let repmdp = remdpChamp.text
+        let nom = nomChamp.text!
+        let prenom = prenomChamp.text!
+        let datenai = datenaiChamp.text!
+        let email = emailChamp.text!
+        let pseudo = pseudoChamp.text!
+        let mdp = mdpChamp.text!
+        let repmdp = repmdpChamp.text!
         
         
         //Vérifier si les hamps sont vides
-        if (nom!.isEmpty || prenom!.isEmpty || datenai!.isEmpty || email!.isEmpty || pseudo!.isEmpty || mdp!.isEmpty || (repmdp != nil))
+        if (nom.isEmpty || prenom.isEmpty || datenai.isEmpty || email.isEmpty || pseudo.isEmpty || mdp.isEmpty || (repmdp.isEmpty))
             
         {
             //Afficher les messages d'alerte
@@ -69,25 +69,30 @@ class InscriptionViewController: UIViewController {
 
         
         //Vérifier la correspondance des mots de passe
-        if (mdp != repmdp)
+        if ( (nom != "" || prenom != "" || datenai != "" || email != "" || pseudo != "" || mdp != "" || repmdp != "") && (mdp != repmdp))
     
         {
             //Afficher un message d'alerte
-            let alertController = UIAlertController(title: "Alerte", message: "Les mots de passe deoivente être identiques", preferredStyle: UIAlertControllerStyle.alert)
             
-            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
-            {
-                (result : UIAlertAction) -> Void in
-                print("Appuyer sur OK")
-            }
-            alertController.addAction(okAction)
-            self.present(alertController, animated: true, completion: nil)
-            //return
+            //Création de l'alerte
+            let alert = UIAlertController(title: "Alerte", message:
+                "Les mots de passe doivent être identiques", preferredStyle: UIAlertControllerStyle.alert)
+            //Ajout d'une action boutton
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+            //Voir alerte
+            self.present(alert,animated: true, completion: nil)
         }
-    
+        
+        
+        
+        if (nom != "" || prenom != "" || datenai != "" || email != "" || pseudo != "" || mdp != "" || repmdp != "" )
+            {
+                performSegue(withIdentifier: "segue.selec", sender: self)
+            }
     }
     
-    @IBAction func connecBoutton(_ sender: AnyObject) {
     
+    @IBAction func connecBoutton(_ sender: AnyObject) {
+    performSegue(withIdentifier: "segue.reconnec", sender: self)
     }
 }

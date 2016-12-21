@@ -22,7 +22,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Suivant" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sb9-h4-IMV">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="BIENVENUE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sb9-h4-IMV">
                                 <rect key="frame" x="0.0" y="116" width="320" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -66,19 +66,19 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email :" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9or-bf-5pv">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Pseudo :" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9or-bf-5pv">
                                 <rect key="frame" x="25" y="167" width="279" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Mot de passe: " textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1Dp-vC-j0t">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Mot de passe: " textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="1Dp-vC-j0t">
                                 <rect key="frame" x="25" y="269" width="279" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i5W-Hc-1b8">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pseudo :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i5W-Hc-1b8">
                                 <rect key="frame" x="25" y="147" width="71" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="71" id="iZy-qr-Y8n"/>
@@ -114,7 +114,7 @@
                                 <rect key="frame" x="109" y="427" width="103" height="30"/>
                                 <state key="normal" title="S'enregistrer"/>
                                 <connections>
-                                    <action selector="enregBoutton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IL0-vT-DSE"/>
+                                    <action selector="enregiBoutton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c3N-ng-XKH"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -145,8 +145,8 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="emailChamp" destination="9or-bf-5pv" id="u2R-7e-oTn"/>
                         <outlet property="mdpChamp" destination="1Dp-vC-j0t" id="scZ-Tf-SIc"/>
+                        <outlet property="pseudoChamp" destination="9or-bf-5pv" id="cnR-4P-CNX"/>
                         <segue destination="wSO-4l-xJH" kind="presentation" identifier="segue.enreg" id="ua7-tX-A9e"/>
                     </connections>
                 </viewController>
@@ -212,13 +212,13 @@
                                 <rect key="frame" x="16" y="462" width="288" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Mot de passe (requis) " textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PdJ-gy-ue7">
                                 <rect key="frame" x="16" y="400" width="288" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prénom* :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zFz-8h-pJc">
                                 <rect key="frame" x="16" y="144" width="288" height="21"/>
@@ -264,6 +264,7 @@
                                 <state key="normal" title="S'inscrire"/>
                                 <connections>
                                     <action selector="enregBoutton:" destination="wSO-4l-xJH" eventType="touchUpInside" id="fwy-F5-Ht8"/>
+                                    <segue destination="3XB-2x-Obl" kind="presentation" identifier="segue.selec" id="ELE-Ke-L54"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o3c-G2-RG2">
@@ -271,6 +272,7 @@
                                 <state key="normal" title="Se connecter"/>
                                 <connections>
                                     <action selector="connecBoutton:" destination="wSO-4l-xJH" eventType="touchUpInside" id="g72-EK-Mzg"/>
+                                    <segue destination="BYZ-38-t0r" kind="presentation" identifier="segue.reconnec" id="TtU-yX-WGf"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Déja un compte ?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ejx-fE-acA">
@@ -338,16 +340,18 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="datenaiChamp" destination="PbO-vD-Mg5" id="XTh-bc-GAr"/>
-                        <outlet property="emailChamp" destination="zbo-F0-WkH" id="1zW-qH-G0N"/>
-                        <outlet property="mdpChamp" destination="2d0-df-JeK" id="kTQ-fW-4Z4"/>
-                        <outlet property="nomChamp" destination="Zyu-5E-OxA" id="TeL-Mx-Oxe"/>
-                        <outlet property="prenomChamp" destination="rhp-K1-IIe" id="hc7-Lk-djH"/>
+                        <outlet property="datenaiChamp" destination="PbO-vD-Mg5" id="yDu-Pr-bOA"/>
+                        <outlet property="emailChamp" destination="zbo-F0-WkH" id="uCh-iy-j9R"/>
+                        <outlet property="mdpChamp" destination="PdJ-gy-ue7" id="utG-Hv-kUc"/>
+                        <outlet property="nomChamp" destination="Zyu-5E-OxA" id="doG-Ah-UUv"/>
+                        <outlet property="prenomChamp" destination="rhp-K1-IIe" id="fjK-zw-w8w"/>
+                        <outlet property="pseudoChamp" destination="Lpo-gY-tOr" id="rKb-i1-kTM"/>
+                        <outlet property="repmdpChamp" destination="2d0-df-JeK" id="oid-MB-uh6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="woC-nz-jFN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="631.875" y="-80.281690140845072"/>
+            <point key="canvasLocation" x="1059.375" y="-83.450704225352112"/>
         </scene>
         <!--Selection View Controller-->
         <scene sceneID="FYW-R2-Axm">
@@ -409,7 +413,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c6w-Ho-Ioa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="291" y="624"/>
+            <point key="canvasLocation" x="236" y="702"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="TtU-yX-WGf"/>
+        <segue reference="QtF-v8-WJt"/>
+    </inferredMetricsTieBreakers>
 </document>
