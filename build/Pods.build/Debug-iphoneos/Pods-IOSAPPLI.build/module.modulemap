@@ -1,0 +1,6 @@
+framework module Pods_IOSAPPLI {
+  umbrella header "Pods-IOSAPPLI-umbrella.h"
+
+  export *
+  module * { export * }
+}

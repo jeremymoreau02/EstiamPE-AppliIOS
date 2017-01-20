@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class InscriptionViewController: UIViewController {
 
@@ -28,6 +29,8 @@ class InscriptionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+        
         // Do any additional setup after loading the view.
     }
 
