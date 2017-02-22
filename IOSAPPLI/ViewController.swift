@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import Alamofire_Synchronous
 
 class ViewController: UIViewController, UITextFieldDelegate {
     
@@ -32,30 +33,71 @@ class ViewController: UIViewController, UITextFieldDelegate {
             //displayMyAlertMessage("Tous les champs sont requis");
             //return;
         }else{
-        
-            let parameters: Parameters = [
-                "pseudo": pseudo,
-                "password": mdp
+            let url = NSURL(string: "http://193.70.40.193:3000/api/connection")
+            var request = URLRequest(url: url as! URL)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            let jsonObject: [String: String] = [
+                "pseudo": pseudo!,
+                "password"	: mdp!
             ]
             
-            let header = 	["Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json", "Authorization":"a"]
+            request.httpBody = try! JSONSerialization.data(withJSONObject: jsonObject)
             
-            Alamofire.request("http://193.70.40.193:3000/api/connection", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON { response in
-                
-                debugPrint(response )
+            let response = Alamofire.request(request).responseJSON()
+            if let json = response.result.value {
+                let JSON = json as! NSDictionary
+                if (JSON["error"] != nil){
+                    let alert = UIAlertController(title: "Alerte", message:
+                        JSON["error"]! as! String, preferredStyle: UIAlertControllerStyle.alert)
+                    //Ajout d'une action boutton
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+                    //Voir alerte
+                    self.present(alert,animated: true, completion: nil)
+                    
+                }else{
+                    print(JSON["userId"] as! Int)
+                    let preferences = UserDefaults.standard
+                    
+                    preferences.set(JSON["userId"] as! Int, forKey: "userId")
+                    
+                    //  Save to disk
+                    preferences.synchronize()
+                }
                 
             }
+            
+            let preferences = UserDefaults.standard
+            debugPrint(preferences.integer(forKey: "userId"))
+            
             performSegue(withIdentifier: "segue.selec", sender: self)
         
         }
         
         
+
+        
+        
     
-}
+    }
     
     
     @IBAction func enregiBoutton(_ sender: AnyObject) {
         performSegue(withIdentifier: "segue.enreg", sender: self)
+    }
+    
+    func alert(texte: String){
+        //Afficher un message d'alerte
+        
+        //Création de l'alerte
+        let alert = UIAlertController(title: "Alerte", message:
+            texte, preferredStyle: UIAlertControllerStyle.alert)
+        //Ajout d'une action boutton
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+        //Voir alerte
+        self.present(alert,animated: true, completion: nil)
+        
     }
     
     override func viewDidLoad()

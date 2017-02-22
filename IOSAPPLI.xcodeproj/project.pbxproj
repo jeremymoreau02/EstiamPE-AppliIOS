@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1629A3451E5B1FBF00EEC12F /* kTextFiledPlaceHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629A3441E5B1FBF00EEC12F /* kTextFiledPlaceHolder.swift */; };
+		167043511E5B298700D2CA74 /* HideShowPasswordTextField in Resources */ = {isa = PBXBuildFile; fileRef = 167043501E5B298700D2CA74 /* HideShowPasswordTextField */; };
+		167043551E5CEB0C00D2CA74 /* customCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167043541E5CEB0C00D2CA74 /* customCellTableViewCell.swift */; };
+		167043571E5CF48200D2CA74 /* UpdateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167043561E5CF48200D2CA74 /* UpdateUserViewController.swift */; };
 		307CA8A4F9DE3733D7171892 /* Pods_IOSAPPLI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2356E14389D231CE63C932BF /* Pods_IOSAPPLI.framework */; };
 		B743A5561E057E9F00A0A233 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743A5551E057E9F00A0A233 /* AppDelegate.swift */; };
 		B743A5581E057E9F00A0A233 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743A5571E057E9F00A0A233 /* ViewController.swift */; };
@@ -19,6 +23,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1629A3441E5B1FBF00EEC12F /* kTextFiledPlaceHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = kTextFiledPlaceHolder.swift; sourceTree = "<group>"; };
+		167043501E5B298700D2CA74 /* HideShowPasswordTextField */ = {isa = PBXFileReference; lastKnownFileType = folder; name = HideShowPasswordTextField; path = "../../../../Downloads/HideShowPasswordTextField-master/HideShowPasswordTextField"; sourceTree = "<group>"; };
+		167043541E5CEB0C00D2CA74 /* customCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = customCellTableViewCell.swift; path = ../customCellTableViewCell.swift; sourceTree = "<group>"; };
+		167043561E5CF48200D2CA74 /* UpdateUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateUserViewController.swift; sourceTree = "<group>"; };
 		2356E14389D231CE63C932BF /* Pods_IOSAPPLI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOSAPPLI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23CC53C7CD5493AB4506EB2F /* Pods-IOSAPPLI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSAPPLI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IOSAPPLI/Pods-IOSAPPLI.debug.xcconfig"; sourceTree = "<group>"; };
 		B6CB5E616D5687903F21F6F2 /* Pods-IOSAPPLI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSAPPLI.release.xcconfig"; path = "Pods/Target Support Files/Pods-IOSAPPLI/Pods-IOSAPPLI.release.xcconfig"; sourceTree = "<group>"; };
@@ -75,6 +83,7 @@
 		B743A5541E057E9F00A0A233 /* IOSAPPLI */ = {
 			isa = PBXGroup;
 			children = (
+				167043501E5B298700D2CA74 /* HideShowPasswordTextField */,
 				B7EB2DE21E0895CC000F20AE /* JSON */,
 				B743A56D1E073F6200A0A233 /* Informations du compte */,
 				B743A56A1E070D7000A0A233 /* Selection photo */,
@@ -85,6 +94,8 @@
 				B743A55C1E057E9F00A0A233 /* Assets.xcassets */,
 				B743A55E1E057E9F00A0A233 /* LaunchScreen.storyboard */,
 				B743A5611E057E9F00A0A233 /* Info.plist */,
+				1629A3441E5B1FBF00EEC12F /* kTextFiledPlaceHolder.swift */,
+				167043541E5CEB0C00D2CA74 /* customCellTableViewCell.swift */,
 			);
 			path = IOSAPPLI;
 			sourceTree = "<group>";
@@ -94,6 +105,7 @@
 			children = (
 				B743A5681E05884700A0A233 /* InscriptionViewController.swift */,
 				B743A56E1E07558500A0A233 /* AccueilViewController.swift */,
+				167043561E5CF48200D2CA74 /* UpdateUserViewController.swift */,
 			);
 			name = "Connexion Et enregistrement";
 			sourceTree = "<group>";
@@ -191,6 +203,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				167043511E5B298700D2CA74 /* HideShowPasswordTextField in Resources */,
 				B743A5601E057E9F00A0A233 /* LaunchScreen.storyboard in Resources */,
 				B743A55D1E057E9F00A0A233 /* Assets.xcassets in Resources */,
 				B743A55B1E057E9F00A0A233 /* Main.storyboard in Resources */,
@@ -254,9 +267,12 @@
 			files = (
 				B743A56F1E07558500A0A233 /* AccueilViewController.swift in Sources */,
 				B743A5581E057E9F00A0A233 /* ViewController.swift in Sources */,
+				167043571E5CF48200D2CA74 /* UpdateUserViewController.swift in Sources */,
 				B743A56C1E070EE300A0A233 /* SelectionViewController.swift in Sources */,
 				B743A5561E057E9F00A0A233 /* AppDelegate.swift in Sources */,
+				167043551E5CEB0C00D2CA74 /* customCellTableViewCell.swift in Sources */,
 				B743A5691E05884700A0A233 /* InscriptionViewController.swift in Sources */,
+				1629A3451E5B1FBF00EEC12F /* kTextFiledPlaceHolder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,5 +9,6 @@ target 'IOSAPPLI' do
 
 	# Pods for IOSAPPLI
 	pod 'Alamofire', '~> 4.0’
+pod 'Alamofire-Synchronous', '~> 4.0'
 
 end

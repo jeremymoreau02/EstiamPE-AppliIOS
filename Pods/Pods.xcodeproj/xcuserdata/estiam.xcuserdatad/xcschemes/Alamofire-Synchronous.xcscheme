@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CBC2717809623ACB9398F485D474E95C"
-               BuildableName = "Pods_IOSAPPLI.framework"
-               BlueprintName = "Pods-IOSAPPLI"
+               BlueprintIdentifier = "EBE460D3E3A3CF1AFBBDFA387940E5E7"
+               BuildableName = "Alamofire_Synchronous.framework"
+               BlueprintName = "Alamofire-Synchronous"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CBC2717809623ACB9398F485D474E95C"
-            BuildableName = "Pods_IOSAPPLI.framework"
-            BlueprintName = "Pods-IOSAPPLI"
+            BlueprintIdentifier = "EBE460D3E3A3CF1AFBBDFA387940E5E7"
+            BuildableName = "Alamofire_Synchronous.framework"
+            BlueprintName = "Alamofire-Synchronous"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
