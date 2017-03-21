@@ -48,6 +48,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
             let response = Alamofire.request(request).responseJSON()
             if let json = response.result.value {
                 let JSON = json as! NSDictionary
+                print(JSON)
                 if (JSON["error"] != nil){
                     let alert = UIAlertController(title: "Alerte", message:
                         JSON["error"]! as! String, preferredStyle: UIAlertControllerStyle.alert)
@@ -61,15 +62,26 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     let preferences = UserDefaults.standard
                     
                     preferences.set(JSON["userId"] as! Int, forKey: "userId")
+                    preferences.set(JSON["token"] as! String, forKey: "token")
+                    
+                    let date = NSDate()
+                    let calendar = NSCalendar.current
+                    let heures = calendar.component(.hour, from: date as Date) as NSNumber
+                    let minutes = calendar.component(.minute, from: date as Date) as NSNumber
+                    let secondes = calendar.component(.second, from: date as Date) as NSNumber
+                    let jour = calendar.component(.day, from: date as Date) as NSNumber
+                    let mois = calendar.component(.month, from: date as Date) as NSNumber
+                    let annee = calendar.component(.year, from: date as Date) as NSNumber
+                    
+                    let stringDate = annee.stringValue + "/"+mois.stringValue+"/"+jour.stringValue+" "+heures.stringValue+":"+minutes.stringValue+":"+secondes.stringValue
+                    preferences.set(stringDate as! String, forKey:"creationDate")
+                    
                     
                     //  Save to disk
                     preferences.synchronize()
                 }
                 
             }
-            
-            let preferences = UserDefaults.standard
-            debugPrint(preferences.integer(forKey: "userId"))
             
             performSegue(withIdentifier: "segue.selec", sender: self)
         
@@ -102,8 +114,50 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad()
     {
+        
+        let preferences = UserDefaults.standard
+        if let datePreferences = preferences.string(forKey: "creationDate"){
+            if datePreferences != nil{
+                let date = NSDate()
+                let calendar = NSCalendar.current
+                let heures :Int = calendar.component(.hour, from: date as Date)
+                let minutes :Int = calendar.component(.minute, from: date as Date)
+                let secondes :Int = calendar.component(.second, from: date as Date)
+                let jour :Int = calendar.component(.day, from: date as Date)
+                let mois :Int = calendar.component(.month, from: date as Date)
+                let annee :Int = calendar.component(.year, from: date as Date)
+                
+    
+
+                let splitDate = datePreferences.characters.split { $0 == " " }.map(String.init)
+                let year :Int = Int(splitDate[0].characters.split { $0 == "/" }.map(String.init)[0])!
+                let month :Int = Int(splitDate[0].characters.split { $0 == "/" }.map(String.init)[1])!
+                let day :Int = Int(splitDate[0].characters.split { $0 == "/" }.map(String.init)[2])!
+                let hours :Int = Int(splitDate[1].characters.split { $0 == ":" }.map(String.init)[0])!
+                let mns :Int = Int(splitDate[1].characters.split { $0 == ":" }.map(String.init)[1])!
+                let sec :Int = Int(splitDate[1].characters.split { $0 == ":" }.map(String.init)[2])!
+                
+                let c = NSDateComponents()
+                c.year = year
+                c.month = month
+                c.day = day+1
+                c.minute = mns
+                c.hour = hours
+                c.second = sec
+                
+                // Get NSDate given the above date components
+                let datePref = NSCalendar(identifier: NSCalendar.Identifier.gregorian)?.date(from: c as DateComponents)
+                
+                
+                let jhgj = date.compare(datePref!)
+                
+                if date.compare(datePref! as Date) == ComparisonResult.orderedDescending{
+                    performSegue(withIdentifier: "segue.selec", sender: self)
+                }
+                
+            }
+        }
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
     }
         

@@ -8,9 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		1629A3451E5B1FBF00EEC12F /* kTextFiledPlaceHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629A3441E5B1FBF00EEC12F /* kTextFiledPlaceHolder.swift */; };
+		1667701B1E64DBA0001BF0BA /* MyImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1667701A1E64DBA0001BF0BA /* MyImageCell.swift */; };
+		1667701E1E64E2C4001BF0BA /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1667701D1E64E2C4001BF0BA /* Photo.swift */; };
 		167043511E5B298700D2CA74 /* HideShowPasswordTextField in Resources */ = {isa = PBXBuildFile; fileRef = 167043501E5B298700D2CA74 /* HideShowPasswordTextField */; };
 		167043551E5CEB0C00D2CA74 /* customCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167043541E5CEB0C00D2CA74 /* customCellTableViewCell.swift */; };
 		167043571E5CF48200D2CA74 /* UpdateUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 167043561E5CF48200D2CA74 /* UpdateUserViewController.swift */; };
+		16A36C1C1E65C857003339B8 /* EditPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A36C1B1E65C857003339B8 /* EditPhotoViewController.swift */; };
+		16D8026A1E7BF0FD00ED4AD1 /* DestinatairesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D802691E7BF0FD00ED4AD1 /* DestinatairesViewController.swift */; };
+		16D8026C1E7D969600ED4AD1 /* DestinataireCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8026B1E7D969600ED4AD1 /* DestinataireCellCollectionViewCell.swift */; };
+		16D8026E1E7D97F000ED4AD1 /* Destinataire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8026D1E7D97F000ED4AD1 /* Destinataire.swift */; };
+		16D802701E7DA49500ED4AD1 /* NouveauDestinataireViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8026F1E7DA49500ED4AD1 /* NouveauDestinataireViewController.swift */; };
 		307CA8A4F9DE3733D7171892 /* Pods_IOSAPPLI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2356E14389D231CE63C932BF /* Pods_IOSAPPLI.framework */; };
 		B743A5561E057E9F00A0A233 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743A5551E057E9F00A0A233 /* AppDelegate.swift */; };
 		B743A5581E057E9F00A0A233 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743A5571E057E9F00A0A233 /* ViewController.swift */; };
@@ -24,9 +31,16 @@
 
 /* Begin PBXFileReference section */
 		1629A3441E5B1FBF00EEC12F /* kTextFiledPlaceHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = kTextFiledPlaceHolder.swift; sourceTree = "<group>"; };
+		1667701A1E64DBA0001BF0BA /* MyImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyImageCell.swift; path = ../MyImageCell.swift; sourceTree = "<group>"; };
+		1667701D1E64E2C4001BF0BA /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		167043501E5B298700D2CA74 /* HideShowPasswordTextField */ = {isa = PBXFileReference; lastKnownFileType = folder; name = HideShowPasswordTextField; path = "../../../../Downloads/HideShowPasswordTextField-master/HideShowPasswordTextField"; sourceTree = "<group>"; };
 		167043541E5CEB0C00D2CA74 /* customCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = customCellTableViewCell.swift; path = ../customCellTableViewCell.swift; sourceTree = "<group>"; };
 		167043561E5CF48200D2CA74 /* UpdateUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateUserViewController.swift; sourceTree = "<group>"; };
+		16A36C1B1E65C857003339B8 /* EditPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPhotoViewController.swift; sourceTree = "<group>"; };
+		16D802691E7BF0FD00ED4AD1 /* DestinatairesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestinatairesViewController.swift; sourceTree = "<group>"; };
+		16D8026B1E7D969600ED4AD1 /* DestinataireCellCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestinataireCellCollectionViewCell.swift; sourceTree = "<group>"; };
+		16D8026D1E7D97F000ED4AD1 /* Destinataire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Destinataire.swift; sourceTree = "<group>"; };
+		16D8026F1E7DA49500ED4AD1 /* NouveauDestinataireViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NouveauDestinataireViewController.swift; sourceTree = "<group>"; };
 		2356E14389D231CE63C932BF /* Pods_IOSAPPLI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOSAPPLI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23CC53C7CD5493AB4506EB2F /* Pods-IOSAPPLI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSAPPLI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IOSAPPLI/Pods-IOSAPPLI.debug.xcconfig"; sourceTree = "<group>"; };
 		B6CB5E616D5687903F21F6F2 /* Pods-IOSAPPLI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSAPPLI.release.xcconfig"; path = "Pods/Target Support Files/Pods-IOSAPPLI/Pods-IOSAPPLI.release.xcconfig"; sourceTree = "<group>"; };
@@ -54,6 +68,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1667701C1E64E27B001BF0BA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1667701D1E64E2C4001BF0BA /* Photo.swift */,
+				16D8026D1E7D97F000ED4AD1 /* Destinataire.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		16D802681E7BEF1200ED4AD1 /* Selection des destinataires */ = {
+			isa = PBXGroup;
+			children = (
+				16D802691E7BF0FD00ED4AD1 /* DestinatairesViewController.swift */,
+				16D8026F1E7DA49500ED4AD1 /* NouveauDestinataireViewController.swift */,
+			);
+			name = "Selection des destinataires";
+			sourceTree = "<group>";
+		};
 		6DC3F2E7FEF1E9C6001114D6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +115,8 @@
 		B743A5541E057E9F00A0A233 /* IOSAPPLI */ = {
 			isa = PBXGroup;
 			children = (
+				16D802681E7BEF1200ED4AD1 /* Selection des destinataires */,
+				1667701C1E64E27B001BF0BA /* Models */,
 				167043501E5B298700D2CA74 /* HideShowPasswordTextField */,
 				B7EB2DE21E0895CC000F20AE /* JSON */,
 				B743A56D1E073F6200A0A233 /* Informations du compte */,
@@ -96,6 +130,8 @@
 				B743A5611E057E9F00A0A233 /* Info.plist */,
 				1629A3441E5B1FBF00EEC12F /* kTextFiledPlaceHolder.swift */,
 				167043541E5CEB0C00D2CA74 /* customCellTableViewCell.swift */,
+				1667701A1E64DBA0001BF0BA /* MyImageCell.swift */,
+				16D8026B1E7D969600ED4AD1 /* DestinataireCellCollectionViewCell.swift */,
 			);
 			path = IOSAPPLI;
 			sourceTree = "<group>";
@@ -114,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				B743A56B1E070EE300A0A233 /* SelectionViewController.swift */,
+				16A36C1B1E65C857003339B8 /* EditPhotoViewController.swift */,
 			);
 			name = "Selection photo";
 			sourceTree = "<group>";
@@ -265,13 +302,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16D8026E1E7D97F000ED4AD1 /* Destinataire.swift in Sources */,
+				1667701B1E64DBA0001BF0BA /* MyImageCell.swift in Sources */,
+				16D8026A1E7BF0FD00ED4AD1 /* DestinatairesViewController.swift in Sources */,
+				16A36C1C1E65C857003339B8 /* EditPhotoViewController.swift in Sources */,
 				B743A56F1E07558500A0A233 /* AccueilViewController.swift in Sources */,
+				16D8026C1E7D969600ED4AD1 /* DestinataireCellCollectionViewCell.swift in Sources */,
 				B743A5581E057E9F00A0A233 /* ViewController.swift in Sources */,
 				167043571E5CF48200D2CA74 /* UpdateUserViewController.swift in Sources */,
+				1667701E1E64E2C4001BF0BA /* Photo.swift in Sources */,
 				B743A56C1E070EE300A0A233 /* SelectionViewController.swift in Sources */,
 				B743A5561E057E9F00A0A233 /* AppDelegate.swift in Sources */,
 				167043551E5CEB0C00D2CA74 /* customCellTableViewCell.swift in Sources */,
 				B743A5691E05884700A0A233 /* InscriptionViewController.swift in Sources */,
+				16D802701E7DA49500ED4AD1 /* NouveauDestinataireViewController.swift in Sources */,
 				1629A3451E5B1FBF00EEC12F /* kTextFiledPlaceHolder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
