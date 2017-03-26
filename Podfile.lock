@@ -2,15 +2,30 @@ PODS:
   - Alamofire (4.2.0)
   - Alamofire-Synchronous (4.0.0):
     - Alamofire (~> 4.0)
+  - CardIO (5.4.1)
+  - PayPal-iOS-SDK (2.16.3):
+    - PayPal-iOS-SDK/CardIO (= 2.16.3)
+    - PayPal-iOS-SDK/Core (= 2.16.3)
+  - PayPal-iOS-SDK/CardIO (2.16.3):
+    - CardIO (~> 5.4.1)
+  - PayPal-iOS-SDK/Core (2.16.3)
+  - SQLite.swift (0.11.2):
+    - SQLite.swift/standard (= 0.11.2)
+  - SQLite.swift/standard (0.11.2)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
   - Alamofire-Synchronous (~> 4.0)
+  - PayPal-iOS-SDK
+  - SQLite.swift (~> 0.11.2)
 
 SPEC CHECKSUMS:
   Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
   Alamofire-Synchronous: eedf1e6e961c3795a63c74990b3f7d9fbfac7e50
+  CardIO: 56983b39b62f495fc6dae9ad7cf875143df06443
+  PayPal-iOS-SDK: db237a752c0b388b93a0b9915b30e26878732bdb
+  SQLite.swift: 670c3e9e0a806bbfd56a3de5d530768dc0e6fe7c
 
-PODFILE CHECKSUM: 000e73fbd8ade318f0bc1f7a68d13a5aae7efb54
+PODFILE CHECKSUM: b8172abb343f0d700a8c6470e119cadac860fb9d
 
 COCOAPODS: 1.1.1

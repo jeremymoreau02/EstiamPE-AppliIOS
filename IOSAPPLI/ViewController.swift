@@ -51,13 +51,22 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 print(JSON)
                 if (JSON["error"] != nil){
                     let alert = UIAlertController(title: "Alerte", message:
-                        JSON["error"]! as! String, preferredStyle: UIAlertControllerStyle.alert)
+                        "l'utilisateur est inconnu", preferredStyle: UIAlertControllerStyle.alert)
                     //Ajout d'une action boutton
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
                     //Voir alerte
                     self.present(alert,animated: true, completion: nil)
                     
                 }else{
+                    if (JSON["message"] != nil){
+                        let alert = UIAlertController(title: "Alerte", message:
+                            "Le mot de passe est incorrect", preferredStyle: UIAlertControllerStyle.alert)
+                        //Ajout d'une action boutton
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+                        //Voir alerte
+                        self.present(alert,animated: true, completion: nil)
+                        
+                    }else{
                     print(JSON["userId"] as! Int)
                     let preferences = UserDefaults.standard
                     
@@ -79,6 +88,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     
                     //  Save to disk
                     preferences.synchronize()
+                    }
                 }
                 
             }

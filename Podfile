@@ -9,6 +9,8 @@ target 'IOSAPPLI' do
 
 	# Pods for IOSAPPLI
 	pod 'Alamofire', '~> 4.0’
-pod 'Alamofire-Synchronous', '~> 4.0'
+    pod 'Alamofire-Synchronous', '~> 4.0'
+    pod 'SQLite.swift', '~> 0.11.2'
+    pod 'PayPal-iOS-SDK'
 
 end

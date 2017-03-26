@@ -26,5 +26,18 @@ class EditPhotoViewController: UIViewController, UINavigationControllerDelegate,
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func onClickValider(_ sender: Any) {
+        self.performSegue(withIdentifier: "segue.destinataires", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "segue.destinataires" {
+            let destinatairesViewController = segue.destination as! DestinatairesViewController
+            
+            destinatairesViewController.image = sender as! Photo
+            
+        }
+    }
     
 }

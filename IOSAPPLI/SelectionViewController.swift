@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SQLite
 
 class SelectionViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate,  UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
 
@@ -14,11 +15,79 @@ class SelectionViewController: UIViewController, UINavigationControllerDelegate,
     var photos: [Photo] = [Photo]()
     var imageCounter: Int = 0
     var indexPhoto = 0
+    var idU: Int64 = 0
 
     @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let path = NSSearchPathForDirectoriesInDomains(
+            .documentDirectory, .userDomainMask, true
+            ).first!
+        do{
+            let db = try Connection("\(path)/db.sqlite3")
+            let panier = Table("panier")
+            let id = Expression<Int64>("id")
+            let idLivraison = Expression<Int64?>("id_livraison")
+            let idUser = Expression<Int64?>("id_user")
+            let idAdresse = Expression<Int64?>("id_adresse")
+            let nbPhotos = Expression<Int64?>("nb_photos")
+            let prixHT = Expression<Double?>("prixHT")
+            let prixTTC = Expression<Double?>("prixTTC")
+            let fdp = Expression<Double?>("fdp")
+            let prixTotal = Expression<Double?>("prixTotal")
+            let nomFacturation = Expression<String?>("nomFacturation")
+            let prenomFacturation = Expression<String?>("prenomFacturation")
+            let cpFacturation = Expression<String?>("cpFacturation")
+            let villeFacturation = Expression<String?>("villeFacturation")
+            let rueFacturation = Expression<String?>("rueFacturation")
+            let status = Expression<String?>("status")
+            
+            do{
+                try db.run(panier.create(ifNotExists: true) { t in     // CREATE TABLE "users" (
+                    t.column(id, primaryKey: true) //     "id" INTEGER PRIMARY KEY NOT NULL,
+                    t.column(idLivraison)
+                    t.column(idUser)
+                    t.column(idAdresse)
+                    t.column(nbPhotos)
+                    t.column(prixHT)
+                    t.column(prixTTC)
+                    t.column(fdp)
+                    t.column(prixTotal)
+                    t.column(nomFacturation)
+                    t.column(prenomFacturation)
+                    t.column(cpFacturation)
+                    t.column(villeFacturation)
+                    t.column(rueFacturation)
+                    t.column(status)
+                })
+                do {
+                    let preferences = UserDefaults.standard
+                    idU = Int64.init(preferences.string(forKey: "userId")! as String)!
+                    let all = Array(try db.prepare(panier.filter(idUser == idU)))
+                    if (all.count == 0){
+                        do{
+                            let idPanier = try db.run(panier.insert(idUser <- idU))
+                            let preferences = UserDefaults.standard
+                            preferences.set(idPanier, forKey: "idPanier")
+                        }catch{
+                            print("insertion impossible: \(error)")
+                        }
+                        
+                    }
+                    
+                } catch {
+                    print("récupération impossible: \(error)")
+                }
+            }catch{
+                print("création de la table panier impossible: \(error)")
+            }
+        }
+        catch{
+            print("connection impossible: \(error)")
+        }
+        
 
         // Do any additional setup after loading the view.
     }
