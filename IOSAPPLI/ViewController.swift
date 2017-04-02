@@ -90,10 +90,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     preferences.synchronize()
                     }
                 }
+                performSegue(withIdentifier: "segue.selec", sender: self)
                 
+            }else{
+                alert(texte: "Connectez vous à internet")
             }
             
-            performSegue(withIdentifier: "segue.selec", sender: self)
+            
         
         }
         

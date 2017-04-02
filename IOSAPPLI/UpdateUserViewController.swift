@@ -31,7 +31,7 @@ class UpdateUserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let preferences = UserDefaults.standard
+       let preferences = UserDefaults.standard
         idUser = preferences.string(forKey: "userId")! as String
         user.userId = Int.init(idUser)!
         var url = NSURL(string: "http://193.70.40.193:3000/api/users/" + idUser)
@@ -85,8 +85,8 @@ class UpdateUserViewController: UIViewController {
         response = Alamofire.request(request).responseJSON()
         if let json = response.result.value  {
             print(json)
-            if (json as! NSDictionary == nil ){
-            var length = (json as! NSArray).count
+            if (json as? NSDictionary == nil ){
+            var length = (json as! NSArray).count - 1
             for var i in 0 ... length{
                 var JSON = (json as! NSArray)[i] as! NSDictionary
                 print(JSON)
@@ -97,8 +97,8 @@ class UpdateUserViewController: UIViewController {
                         rue.text = JSON["street"] as! String
                         adresse.ZC = JSON["ZC"] as! String
                         cp.text = JSON["ZC"] as! String
-                        adresse.UserId = JSON["userId"] as! Int
-                        adresse.createdAt = JSON["createdAd"] as! String
+                        adresse.UserId = JSON["UserId"] as! Int
+                        adresse.createdAt = JSON["createdAt"] as! String
                         adresse.updatedAt = JSON["updatedAt"] as! String
                         adresse.id = JSON["id"] as! Int
                         adresse.type = JSON["type"] as! String
@@ -108,6 +108,7 @@ class UpdateUserViewController: UIViewController {
             }
             
         }
+ 
 
         
         // Do any additional setup after loading the view.
@@ -132,145 +133,145 @@ class UpdateUserViewController: UIViewController {
     }
     
  
-   @IBAction func onClickValider(_ sender: Any) {
+    @IBAction func onClickValider(_ sender: Any) {
         var bon: Bool = true
-    
-    if(!(dateDeNaissance.text=="")){
-        let tab = dateDeNaissance.text?.components(separatedBy: "/")
         
-        if(tab?.count == 3){
-            let str = (tab?[2])!+"-"+(tab?[1])!+"-"+(tab?[0])!
-            let dateFormatterGet = DateFormatter()
-            dateFormatterGet.dateFormat = "yyyy-MM-dd"
+        if(!(dateDeNaissance.text=="")){
+            let tab = dateDeNaissance.text?.components(separatedBy: "/")
             
-            if (dateFormatterGet.date(from: str) != nil) {
-                user.dateNaissance = str
-            } else {
+            if(tab?.count == 3){
+                let str = (tab?[2])!+"-"+(tab?[1])!+"-"+(tab?[0])!
+                let dateFormatterGet = DateFormatter()
+                dateFormatterGet.dateFormat = "yyyy-MM-dd"
+                
+                if (dateFormatterGet.date(from: str) != nil) {
+                    user.dateNaissance = str
+                } else {
+                    alert(texte: "Date de naissance invalide")
+                    bon = false
+                }
+            }else{
                 alert(texte: "Date de naissance invalide")
                 bon = false
             }
-        }else{
-            alert(texte: "Date de naissance invalide")
-            bon = false
-        }
-        
-        if(!(oldPassword.text=="") || !(confirmPassword.text=="") || !(newPassword.text=="")) {
-            if(oldPassword.text==""){
-                alert(texte: "ancien mot de passe vide")
-                bon=false
-            }else{
-                if(newPassword.text==""){
-                    alert(texte: "nouveau mot de passe vide")
+            
+            if(!(oldPassword.text=="") || !(confirmPassword.text=="") || !(newPassword.text=="")) {
+                if(oldPassword.text==""){
+                    alert(texte: "ancien mot de passe vide")
                     bon=false
                 }else{
-                    if(confirmPassword.text==""){
-                        alert(texte: "confirmation du mot de passe vide")
+                    if(newPassword.text==""){
+                        alert(texte: "nouveau mot de passe vide")
                         bon=false
+                    }else{
+                        if(confirmPassword.text==""){
+                            alert(texte: "confirmation du mot de passe vide")
+                            bon=false
+                        }
                     }
                 }
-            }
-            if(oldPassword.text==newPassword.text) {
-                alert(texte: "mot de passe inchangé")
-                bon=false
-            }
-            if(!(confirmPassword.text==newPassword.text)) {
-                alert(texte: "mots de passes differents")
-                bon=false;
-            }
-        }
-        
-        if(bon) {
-            
-            if (!(email.text=="")) {
-                if (!isValidEmail(testStr: email.text!)) {
-                    alert(texte: "Email invalide")
-                } else {
-                    user.email = email.text!
+                if(oldPassword.text==newPassword.text) {
+                    alert(texte: "mot de passe inchangé")
+                    bon=false
+                }
+                if(!(confirmPassword.text==newPassword.text)) {
+                    alert(texte: "mots de passes differents")
+                    bon=false;
                 }
             }
             
-            if (pseudo.text==""){ user.pseudo = pseudo.text!}
-            if (nom.text==""){ user.nom = nom.text!}
-            if (prenom.text==""){ user.prenom = prenom.text!}
-            
-            if(!((newPassword.text==""||oldPassword.text==""))){
-                user.password = newPassword.text!
-            }
-            user.oldPassword = oldPassword.text!
-            
-            
-            adresse.UserId = user.userId
-            if (!(cp.text=="")){ adresse.ZC = cp.text!}
-            if (!(rue.text=="")){ adresse.street = rue.text!}
-            if (!(ville.text=="")){ adresse.city = ville.text!}
-            adresse.type = "Billing."
-            
-            var url = NSURL(string: "http://193.70.40.193:3000/api/user/" + idUser)
-            var request = URLRequest(url: url as! URL)
-            request.httpMethod = "POST"
-            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            request.setValue("application/json", forHTTPHeaderField: "Accept")
-            request.setValue(token as String, forHTTPHeaderField: "x-access-token")
-            
-            var jsonObject: [String: Any] = [
-                "nom": user.nom,
-                "prenom": user.prenom,
-                "age": user.age,
-                "dateNaissance": user.dateNaissance,
-                "userId": user.userId,
-                "pseudo": user.pseudo,
-                "email": user.email,
-                "role": user.role,
-                "password": user.password,
-                "oldPassword": user.oldPassword,
-            ]
-            
-            debugPrint(JSONSerialization.isValidJSONObject(jsonObject)) // true
-            
-            //let header = 	["Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json", "Authorization":"a"]
-            
-            request.httpBody = try! JSONSerialization.data(withJSONObject: jsonObject)
-            
-            debugPrint(Alamofire.request(request).responseJSON { response in
+            if(bon) {
                 
-                print("fguhjkl")
-                debugPrint(response)
-            })
-            
-             url = NSURL(string: "http://193.70.40.193:3000/api/address/" + String.init(adresse.id))
-             request = URLRequest(url: url as! URL)
-            request.httpMethod = "POST"
-            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            request.setValue("application/json", forHTTPHeaderField: "Accept")
-            request.setValue(token as String, forHTTPHeaderField: "x-access-token")
-            
-            jsonObject = [
-                "id": adresse.id,
-                "UserId" : adresse.UserId,
-                "city" : adresse.city,
-                "createdAt" : adresse.createdAt,
-                "updatedAt" : adresse.updatedAt,
-                "street" : adresse.street,
-                "type" : adresse.type,
+                if (!(email.text=="")) {
+                    if (!isValidEmail(testStr: email.text!)) {
+                        alert(texte: "Email invalide")
+                    } else {
+                        user.email = email.text!
+                    }
+                }
+                
+                if (pseudo.text==""){ user.pseudo = pseudo.text!}
+                if (nom.text==""){ user.nom = nom.text!}
+                if (prenom.text==""){ user.prenom = prenom.text!}
+                
+                if(!((newPassword.text==""||oldPassword.text==""))){
+                    user.password = newPassword.text!
+                }
+                user.oldPassword = oldPassword.text!
+                
+                
+                adresse.UserId = user.userId
+                if (!(cp.text=="")){ adresse.ZC = cp.text!}
+                if (!(rue.text=="")){ adresse.street = rue.text!}
+                if (!(ville.text=="")){ adresse.city = ville.text!}
+                adresse.type = "Billing"
+                
+                var url = NSURL(string: "http://193.70.40.193:3000/api/users/" + idUser)
+                var request = URLRequest(url: url as! URL)
+                request.httpMethod = "POST"
+                request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                request.setValue("application/json", forHTTPHeaderField: "Accept")
+                request.setValue(token as String, forHTTPHeaderField: "x-access-token")
+                
+                var jsonObject: [String: Any] = [
+                    "nom": user.nom,
+                    "prenom": user.prenom,
+                    "age": user.age,
+                    "dateNaissance": user.dateNaissance,
+                    "userId": user.userId,
+                    "pseudo": user.pseudo,
+                    "email": user.email,
+                    "role": user.role,
+                    "password": user.password,
+                    "oldPassword": user.oldPassword,
+                    ]
+                
+                debugPrint(JSONSerialization.isValidJSONObject(jsonObject)) // true
+                
+                //let header = 	["Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json", "Authorization":"a"]
+                
+                request.httpBody = try! JSONSerialization.data(withJSONObject: jsonObject)
+                
+                debugPrint(Alamofire.request(request).responseJSON { response in
+                    
+                    print("fguhjkl")
+                    debugPrint(response)
+                })
+                
+                var url2 = NSURL(string: "http://193.70.40.193:3000/api/address/" + String.init(adresse.id))
+                var request2 = URLRequest(url: url2 as! URL)
+                request2.httpMethod = "POST"
+                request2.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                request2.setValue("application/json", forHTTPHeaderField: "Accept")
+                request2.setValue(token as String, forHTTPHeaderField: "x-access-token")
+                
+                jsonObject = [
+                    "id": adresse.id,
+                    "userID" : adresse.UserId,
+                    "city" : adresse.city,
+                    "createdAt" : adresse.createdAt,
+                    "updatedAt" : adresse.updatedAt,
+                    "street" : adresse.street,
+                    "type" : adresse.type,
                 ]
-            
-            debugPrint(JSONSerialization.isValidJSONObject(jsonObject)) // true
-            
-            //let header = 	["Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json", "Authorization":"a"]
-            
-            request.httpBody = try! JSONSerialization.data(withJSONObject: jsonObject)
-            
-            debugPrint(Alamofire.request(request).responseJSON { response in
                 
-                print("fguhjkl")
-                debugPrint(response)
-            })
-
+                debugPrint(JSONSerialization.isValidJSONObject(jsonObject)) // true
+                
+                //let header = 	["Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json", "Authorization":"a"]
+                
+                request2.httpBody = try! JSONSerialization.data(withJSONObject: jsonObject)
+                
+                debugPrint(Alamofire.request(request2).responseJSON { response in
+                    
+                    print("fguhjkl")
+                    debugPrint(response)
+                })
+                
+                
+            }
             
         }
 
-    }
-    
     }
     
     func isValidEmail(testStr:String) -> Bool {

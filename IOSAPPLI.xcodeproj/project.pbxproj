@@ -195,7 +195,6 @@
 				16D8026B1E7D969600ED4AD1 /* DestinataireCellCollectionViewCell.swift */,
 				1629A3441E5B1FBF00EEC12F /* kTextFiledPlaceHolder.swift */,
 				1667701A1E64DBA0001BF0BA /* MyImageCell.swift */,
-				B743A5571E057E9F00A0A233 /* ViewController.swift */,
 				B743A55C1E057E9F00A0A233 /* Assets.xcassets */,
 				B743A5671E05878700A0A233 /* Connexion Et enregistrement */,
 				B743A56D1E073F6200A0A233 /* Informations du compte */,
@@ -213,6 +212,7 @@
 		B743A5671E05878700A0A233 /* Connexion Et enregistrement */ = {
 			isa = PBXGroup;
 			children = (
+				B743A5571E057E9F00A0A233 /* ViewController.swift */,
 				B743A5681E05884700A0A233 /* InscriptionViewController.swift */,
 				B743A56E1E07558500A0A233 /* AccueilViewController.swift */,
 				167043561E5CF48200D2CA74 /* UpdateUserViewController.swift */,

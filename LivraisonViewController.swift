@@ -31,20 +31,28 @@ class LivraisonViewController: UIViewController, UITableViewDelegate, UITableVie
         
         var response = Alamofire.request(request).responseJSON()
         if let json = response.result.value {
-            let JSON = json as! NSDictionary
-            print(JSON)
-            if (JSON["error"] != nil){
-                let alert = UIAlertController(title: "Alerte", message:
-                    JSON["error"]! as! String, preferredStyle: UIAlertControllerStyle.alert)
-                //Ajout d'une action boutton
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
-                //Voir alerte
-                self.present(alert,animated: true, completion: nil)
-                
-            }else{
-                livraisonsArray.append(Livraison(name: JSON["name"]! as! String, price: JSON["name"]! as! Float, shippingDuration: JSON["name"]! as! Int))
-                
+            let JSONArray = json as! NSArray
+            debugPrint(JSONArray)
+            if JSONArray != nil{
+                for var index in 0 ... (JSONArray.count - 1){
+                    var JSON = JSONArray[index] as! NSDictionary
+                    debugPrint(JSON)
+                    if (JSON["error"] != nil){
+                        let alert = UIAlertController(title: "Alerte", message:
+                            JSON["error"]! as! String, preferredStyle: UIAlertControllerStyle.alert)
+                        //Ajout d'une action boutton
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+                        //Voir alerte
+                        self.present(alert,animated: true, completion: nil)
+                        
+                    }else{
+                        livraisonsArray.append(Livraison(id: JSON["id"]! as! Int64,name: JSON["name"]! as! String, price: JSON["price"]! as! Float, shippingDuration: JSON["shippingDuration"]! as! Int))
+                        
+                    }
+                }
+            
             }
+            
             
         }
         
@@ -72,9 +80,9 @@ class LivraisonViewController: UIViewController, UITableViewDelegate, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellContenu", for: indexPath) as! LivraisonTableViewCell
         let methode = livraisonsArray[indexPath.row] as Livraison
         
-        cell.delaiLivraison.text = String.init(methode.shippingDuration)
+        cell.delaiLivraison.text = String.init(methode.shippingDuration) + " jours"
         cell.nomLivraison.text = methode.name
-        cell.prixLivraison.text = String.init(methode.price)
+        cell.prixLivraison.text = String.init(methode.price) + " €"
         
         return cell
         

@@ -35,7 +35,7 @@ class EditPhotoViewController: UIViewController, UINavigationControllerDelegate,
         if segue.identifier == "segue.destinataires" {
             let destinatairesViewController = segue.destination as! DestinatairesViewController
             
-            destinatairesViewController.image = sender as! Photo
+            destinatairesViewController.image = image
             
         }
     }

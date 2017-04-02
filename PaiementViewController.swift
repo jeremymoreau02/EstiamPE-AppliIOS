@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PaiementViewController: UIViewController {
+class PaiementViewController: UIViewController , PayPalPaymentDelegate{
     
     var environment:String = PayPalEnvironmentNoNetwork {
         willSet(newEnvironment) {
@@ -51,6 +51,10 @@ class PaiementViewController: UIViewController {
             print("Here is your proof of payment:\n\n\(completedPayment.confirmation)\n\nSend this to your server for confirmation and fulfillment.")
             
         })
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let selectionViewController = storyboard.instantiateViewController(withIdentifier: "segue.Selec")
+        self.present(selectionViewController, animated: true)
     }
     
 
@@ -58,24 +62,21 @@ class PaiementViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    /*@IBAction func onClickPaypal(_ sender: Any) {
-        
-       /* let payment = PayPalPayment(amount: 10.5 , currencyCode: "EUR", shortDescription: "Photos", intent: .sale)
-        
-        if (payment.processable) {
+    @IBAction func paypal(_ sender: Any) {
+         let payment = PayPalPayment(amount: 10.5 , currencyCode: "EUR", shortDescription: "Photos", intent: .sale)
+         
+         if (payment.processable) {
             let paymentViewController = PayPalPaymentViewController(payment: payment, configuration: payPalConfig, delegate: self as! PayPalPaymentDelegate)
             present(paymentViewController!, animated: true, completion: nil)
-        }
-        else {
-            // This particular payment will always be processable. If, for
-            // example, the amount was negative or the shortDescription was
-            // empty, this payment wouldn't be processable, and you'd want
-            // to handle that here.
-            alert(texte: "Payment not processalbe: \(payment)")
-        }*/
-    }*/
-    @IBAction func paypal(_ sender: Any) {
+            
+         }
+         else {
+         // This particular payment will always be processable. If, for
+         // example, the amount was negative or the shortDescription was
+         // empty, this payment wouldn't be processable, and you'd want
+         // to handle that here.
+         alert(texte: "Payment not processable: \(payment)")
+         }
     }
 
     
