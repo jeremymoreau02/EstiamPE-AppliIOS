@@ -11,6 +11,10 @@
 		165225DD1E87FA6B00DD6A7D /* LivraisonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165225DC1E87FA6B00DD6A7D /* LivraisonViewController.swift */; };
 		165225DF1E88018E00DD6A7D /* Livraison.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165225DE1E88018E00DD6A7D /* Livraison.swift */; };
 		165225E11E880C9C00DD6A7D /* LivraisonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165225E01E880C9C00DD6A7D /* LivraisonTableViewCell.swift */; };
+		165C98E11E93AF52000DEB72 /* PanierTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165C98E01E93AF52000DEB72 /* PanierTableViewController.swift */; };
+		165C98E31E93BF55000DEB72 /* panierCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165C98E21E93BF55000DEB72 /* panierCellTableViewCell.swift */; };
+		165C98E51E93D0D0000DEB72 /* PhotoModifiee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165C98E41E93D0D0000DEB72 /* PhotoModifiee.swift */; };
+		165C98E71E93E252000DEB72 /* Panier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165C98E61E93E252000DEB72 /* Panier.swift */; };
 		1667701B1E64DBA0001BF0BA /* MyImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1667701A1E64DBA0001BF0BA /* MyImageCell.swift */; };
 		1667701E1E64E2C4001BF0BA /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1667701D1E64E2C4001BF0BA /* Photo.swift */; };
 		167043511E5B298700D2CA74 /* HideShowPasswordTextField in Resources */ = {isa = PBXBuildFile; fileRef = 167043501E5B298700D2CA74 /* HideShowPasswordTextField */; };
@@ -36,6 +40,8 @@
 		16F030121E88291C00D16E91 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F030091E88291C00D16E91 /* MobileCoreServices.framework */; };
 		16F030131E88291C00D16E91 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F0300A1E88291C00D16E91 /* SafariServices.framework */; };
 		16F030141E88291C00D16E91 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F0300B1E88291C00D16E91 /* SystemConfiguration.framework */; };
+		16F2FABD1E9696A4007D864F /* Masks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F2FABC1E9696A4007D864F /* Masks.swift */; };
+		16F2FABF1E96974A007D864F /* Dimensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F2FABE1E96974A007D864F /* Dimensions.swift */; };
 		307CA8A4F9DE3733D7171892 /* Pods_IOSAPPLI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2356E14389D231CE63C932BF /* Pods_IOSAPPLI.framework */; };
 		B743A5561E057E9F00A0A233 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743A5551E057E9F00A0A233 /* AppDelegate.swift */; };
 		B743A5581E057E9F00A0A233 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743A5571E057E9F00A0A233 /* ViewController.swift */; };
@@ -52,6 +58,10 @@
 		165225DC1E87FA6B00DD6A7D /* LivraisonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivraisonViewController.swift; sourceTree = "<group>"; };
 		165225DE1E88018E00DD6A7D /* Livraison.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Livraison.swift; sourceTree = "<group>"; };
 		165225E01E880C9C00DD6A7D /* LivraisonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivraisonTableViewCell.swift; sourceTree = "<group>"; };
+		165C98E01E93AF52000DEB72 /* PanierTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanierTableViewController.swift; sourceTree = "<group>"; };
+		165C98E21E93BF55000DEB72 /* panierCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = panierCellTableViewCell.swift; sourceTree = "<group>"; };
+		165C98E41E93D0D0000DEB72 /* PhotoModifiee.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoModifiee.swift; sourceTree = "<group>"; };
+		165C98E61E93E252000DEB72 /* Panier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Panier.swift; sourceTree = "<group>"; };
 		1667701A1E64DBA0001BF0BA /* MyImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MyImageCell.swift; path = ../MyImageCell.swift; sourceTree = "<group>"; };
 		1667701D1E64E2C4001BF0BA /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		167043501E5B298700D2CA74 /* HideShowPasswordTextField */ = {isa = PBXFileReference; lastKnownFileType = folder; name = HideShowPasswordTextField; path = "../../../../Downloads/HideShowPasswordTextField-master/HideShowPasswordTextField"; sourceTree = "<group>"; };
@@ -78,6 +88,8 @@
 		16F0300A1E88291C00D16E91 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		16F0300B1E88291C00D16E91 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		16F030151E882A5600D16E91 /* IOSAPPLI-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IOSAPPLI-Bridging-Header.h"; sourceTree = "<group>"; };
+		16F2FABC1E9696A4007D864F /* Masks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Masks.swift; sourceTree = "<group>"; };
+		16F2FABE1E96974A007D864F /* Dimensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dimensions.swift; sourceTree = "<group>"; };
 		2356E14389D231CE63C932BF /* Pods_IOSAPPLI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOSAPPLI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23CC53C7CD5493AB4506EB2F /* Pods-IOSAPPLI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSAPPLI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IOSAPPLI/Pods-IOSAPPLI.debug.xcconfig"; sourceTree = "<group>"; };
 		B6CB5E616D5687903F21F6F2 /* Pods-IOSAPPLI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSAPPLI.release.xcconfig"; path = "Pods/Target Support Files/Pods-IOSAPPLI/Pods-IOSAPPLI.release.xcconfig"; sourceTree = "<group>"; };
@@ -122,6 +134,10 @@
 				16B8E0EE1E845E4A00AFB281 /* User.swift */,
 				16B8E0F01E84661A00AFB281 /* Adresse.swift */,
 				165225DE1E88018E00DD6A7D /* Livraison.swift */,
+				165C98E41E93D0D0000DEB72 /* PhotoModifiee.swift */,
+				165C98E61E93E252000DEB72 /* Panier.swift */,
+				16F2FABC1E9696A4007D864F /* Masks.swift */,
+				16F2FABE1E96974A007D864F /* Dimensions.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -133,6 +149,7 @@
 				169600361E8720C4005E9E2F /* PaiementViewController.swift */,
 				165225DC1E87FA6B00DD6A7D /* LivraisonViewController.swift */,
 				16F030151E882A5600D16E91 /* IOSAPPLI-Bridging-Header.h */,
+				165C98E01E93AF52000DEB72 /* PanierTableViewController.swift */,
 			);
 			name = Paiement;
 			path = ..;
@@ -205,6 +222,7 @@
 				16D802681E7BEF1200ED4AD1 /* Selection des destinataires */,
 				B743A56A1E070D7000A0A233 /* Selection photo */,
 				165225E01E880C9C00DD6A7D /* LivraisonTableViewCell.swift */,
+				165C98E21E93BF55000DEB72 /* panierCellTableViewCell.swift */,
 			);
 			path = IOSAPPLI;
 			sourceTree = "<group>";
@@ -379,12 +397,14 @@
 			files = (
 				16D8026E1E7D97F000ED4AD1 /* Destinataire.swift in Sources */,
 				1667701B1E64DBA0001BF0BA /* MyImageCell.swift in Sources */,
+				165C98E31E93BF55000DEB72 /* panierCellTableViewCell.swift in Sources */,
 				165225DD1E87FA6B00DD6A7D /* LivraisonViewController.swift in Sources */,
 				16D8026A1E7BF0FD00ED4AD1 /* DestinatairesViewController.swift in Sources */,
 				165225DF1E88018E00DD6A7D /* Livraison.swift in Sources */,
 				16A36C1C1E65C857003339B8 /* EditPhotoViewController.swift in Sources */,
 				16B8E0EF1E845E4A00AFB281 /* User.swift in Sources */,
 				16DD1B9E1E852A33006C326E /* ContactViewController.swift in Sources */,
+				165C98E71E93E252000DEB72 /* Panier.swift in Sources */,
 				B743A56F1E07558500A0A233 /* AccueilViewController.swift in Sources */,
 				165225E11E880C9C00DD6A7D /* LivraisonTableViewCell.swift in Sources */,
 				16D8026C1E7D969600ED4AD1 /* DestinataireCellCollectionViewCell.swift in Sources */,
@@ -398,8 +418,12 @@
 				B743A5561E057E9F00A0A233 /* AppDelegate.swift in Sources */,
 				167043551E5CEB0C00D2CA74 /* customCellTableViewCell.swift in Sources */,
 				B743A5691E05884700A0A233 /* InscriptionViewController.swift in Sources */,
+				165C98E11E93AF52000DEB72 /* PanierTableViewController.swift in Sources */,
 				16D802701E7DA49500ED4AD1 /* NouveauDestinataireViewController.swift in Sources */,
+				16F2FABD1E9696A4007D864F /* Masks.swift in Sources */,
+				16F2FABF1E96974A007D864F /* Dimensions.swift in Sources */,
 				1629A3451E5B1FBF00EEC12F /* kTextFiledPlaceHolder.swift in Sources */,
+				165C98E51E93D0D0000DEB72 /* PhotoModifiee.swift in Sources */,
 				169600321E87075E005E9E2F /* MessageDestinataireViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

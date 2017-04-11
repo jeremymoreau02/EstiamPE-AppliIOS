@@ -10,11 +10,14 @@ import UIKit
 import SQLite
 
 class DestinatairesViewController: UIViewController,  UICollectionViewDelegateFlowLayout, UICollectionViewDataSource  {
+    
+    var panierModel: Panier = Panier()
 
     @IBOutlet weak var collView: UICollectionView!
     @IBOutlet weak var collectionView: UICollectionView!
     
     var image : Photo = Photo(url: URL(string: "https://www.apple.com")!, uiimage: UIImage())
+    var urlFinale: String?
     
     var cellCounter: Int = 0
     var indexCell = 0
@@ -89,6 +92,114 @@ class DestinatairesViewController: UIViewController,  UICollectionViewDelegateFl
             print("connection impossible: \(error)")
         }
         
+        do{
+            let db = try Connection("\(path)/db.sqlite3")
+            let panier = Table("panier")
+            let id = Expression<Int64>("id")
+            let idLivraison = Expression<Int64?>("id_livraison")
+            let idUser = Expression<Int64?>("id_user")
+            let idAdresse = Expression<Int64?>("id_adresse")
+            let nbPhotos = Expression<Int64?>("nb_photos")
+            let prixHT = Expression<Double?>("prixHT")
+            let prixTTC = Expression<Double?>("prixTTC")
+            let fdp = Expression<Double?>("fdp")
+            let prixTotal = Expression<Double?>("prixTotal")
+            let nomFacturation = Expression<String?>("nomFacturation")
+            let prenomFacturation = Expression<String?>("prenomFacturation")
+            let cpFacturation = Expression<String?>("cpFacturation")
+            let villeFacturation = Expression<String?>("villeFacturation")
+            let rueFacturation = Expression<String?>("rueFacturation")
+            let status = Expression<String?>("status")
+            
+            do{
+                try db.run(panier.create(ifNotExists: true) { t in     // CREATE TABLE "users" (
+                    t.column(id, primaryKey: true) //     "id" INTEGER PRIMARY KEY NOT NULL,
+                    t.column(idLivraison)
+                    t.column(idUser)
+                    t.column(idAdresse)
+                    t.column(nbPhotos)
+                    t.column(prixHT)
+                    t.column(prixTTC)
+                    t.column(fdp)
+                    t.column(prixTotal)
+                    t.column(nomFacturation)
+                    t.column(prenomFacturation)
+                    t.column(cpFacturation)
+                    t.column(villeFacturation)
+                    t.column(rueFacturation)
+                    t.column(status)
+                })
+                do {
+                    let preferences = UserDefaults.standard
+                    idU = Int64.init(preferences.string(forKey: "userId")! as String)!
+                    var p = Array(try db.prepare(panier.filter(idUser == idU)))[0]
+                    panierModel.id = p.get(id)
+                    if var a = p.get(idLivraison){
+                        panierModel.idLivraison = a
+                    }
+                    
+                    if var a = p.get(idUser){
+                        panierModel.idUser = a
+                    }
+                    
+                    if var a = p.get(idAdresse){
+                        panierModel.idAdresse = a
+                    }
+                    
+                    if var a = p.get(nbPhotos){
+                        panierModel.nbPhotos = a
+                    }
+                    if var a = p.get(prixHT){
+                        panierModel.prixHT = a
+                    }
+                    
+                    if var a = p.get(prixTTC){
+                        panierModel.prixTTC = a
+                    }
+                    
+                    if var a = p.get(fdp){
+                        panierModel.fdp = a
+                    }
+                    
+                    if var a = p.get(prixTotal){
+                        panierModel.prixTotal = a
+                    }
+                    
+                    if var a = p.get(nomFacturation){
+                        panierModel.nomFacturation = a
+                    }
+                    
+                    if var a = p.get(prenomFacturation){
+                        panierModel.prenomFacturation = a
+                    }
+                    
+                    if var a = p.get(cpFacturation){
+                        panierModel.cpFacturation = a
+                    }
+                    
+                    if var a = p.get(villeFacturation){
+                        panierModel.villeFacturation = a
+                    }
+                    
+                    if var a = p.get(rueFacturation){
+                        panierModel.rueFacturation = a
+                    }
+                    
+                    if var a = p.get(status){
+                        panierModel.status = a
+                    }
+                } catch {
+                    print("récupération impossible: \(error)")
+                }
+            }catch{
+                print("création de la table panier impossible: \(error)")
+            }
+        }
+        catch{
+            print("connection impossible: \(error)")
+        }
+
+        
         
         
         // Do any additional setup after loading the view.
@@ -155,14 +266,21 @@ class DestinatairesViewController: UIViewController,  UICollectionViewDelegateFl
             
             messageDestinataireViewController.destinataire = sender as! Destinataire
             messageDestinataireViewController.image = self.image
-            
+            messageDestinataireViewController.urlFinale = self.urlFinale
         }
         
         if segue.identifier == "segue.newDestinataire" {
             let nouveauDestinataireViewController = segue.destination as! NouveauDestinataireViewController
             
             nouveauDestinataireViewController.image = self.image
+            nouveauDestinataireViewController.urlFinale = self.urlFinale
+        }
+        
+        if segue.identifier == "segue.retEdition" {
+            let editPhotoViewController = segue.destination as! EditPhotoViewController
             
+            editPhotoViewController.image = self.image
+            editPhotoViewController.urlFinale = self.urlFinale
         }
     }
     
@@ -247,6 +365,7 @@ class DestinatairesViewController: UIViewController,  UICollectionViewDelegateFl
     }
     
     @IBAction func onClickValider(_ sender: Any) {
+        var photo = PhotoModifiee(id: 0, idMasque: 0, idFormat: 0, idPanier: 0, idUser: 0, nbPhotos: 0, name: "", uriOrigine: "", uriFinale: "", description: "", prix: 0)
         let path = NSSearchPathForDirectoriesInDomains(
             .documentDirectory, .userDomainMask, true
             ).first!
@@ -285,7 +404,45 @@ class DestinatairesViewController: UIViewController,  UICollectionViewDelegateFl
                     let preferences = UserDefaults.standard
                     idU = Int64.init(preferences.string(forKey: "userId")! as String)!
                     let idPanier = Int64.init(preferences.string(forKey: "idPanier")! as String)!
-                    try db.run(photoModifiee.insert(idPanierCol <- idPanier, idUserCol <- idU, uriOrigineCol <- self.image.url.absoluteString))
+                    try db.run(photoModifiee.insert(idPanierCol <- idPanier, idUserCol <- idU, uriFinaleCol <- self.urlFinale))
+                    
+                } catch {
+                    print("récupération impossible: \(error)")
+                }
+            }catch{
+                print("création de la table panier impossible: \(error)")
+            }
+        }
+        catch{
+            print("connection impossible: \(error)")
+        }
+        
+        do{
+            let db = try Connection("\(path)/db.sqlite3")
+            let panier = Table("panier")
+            let nbPhotos = Expression<Int64?>("nb_photos")
+            let idUser = Expression<Int64?>("id_user")
+            let id = Expression<Int64?>("id")
+            let prixHT = Expression<Double?>("prixHT")
+            
+            panierModel.nbPhotos += 1
+            
+            do{
+                do {
+                    do {
+                        var prix = Array(try db.prepare(panier.filter(idUser == idU)))[0].get(prixHT)
+                        print(prix)
+                        if(prix == nil){
+                            prix = 0
+                        }
+                        if try db.run(panier.filter(id == panierModel.id).update(nbPhotos <- panierModel.nbPhotos, prixHT <- (prix! + Double.init(photo.prix) ) )) > 0 {
+                            print("updated alice")
+                        } else {
+                            print("alice not found")
+                        }
+                    } catch {
+                        print("update failed: \(error)")
+                    }
                     
                 } catch {
                     print("récupération impossible: \(error)")
@@ -298,6 +455,8 @@ class DestinatairesViewController: UIViewController,  UICollectionViewDelegateFl
             print("connection impossible: \(error)")
         }
 
-    }
 
+    }
+    
+    
 }

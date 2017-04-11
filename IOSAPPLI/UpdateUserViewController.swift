@@ -69,7 +69,6 @@ class UpdateUserViewController: UIViewController {
                 user.dateNaissance = date
                 user.nom = JSON["nom"]! as! String
                 user.prenom = JSON["prenom"]! as! String
-            
             }
             
         }
@@ -190,21 +189,21 @@ class UpdateUserViewController: UIViewController {
                     }
                 }
                 
-                if (pseudo.text==""){ user.pseudo = pseudo.text!}
-                if (nom.text==""){ user.nom = nom.text!}
-                if (prenom.text==""){ user.prenom = prenom.text!}
+                if (!(pseudo.text=="")){ user.pseudo = pseudo.text!}
+                if (!(nom.text=="")){ user.nom = nom.text!}
+                if (!(prenom.text=="")){ user.prenom = prenom.text!}
                 
                 if(!((newPassword.text==""||oldPassword.text==""))){
                     user.password = newPassword.text!
                 }
+                
                 user.oldPassword = oldPassword.text!
-                
-                
+
                 adresse.UserId = user.userId
                 if (!(cp.text=="")){ adresse.ZC = cp.text!}
                 if (!(rue.text=="")){ adresse.street = rue.text!}
                 if (!(ville.text=="")){ adresse.city = ville.text!}
-                adresse.type = "Billing"
+                adresse.type = "Shipping"
                 
                 var url = NSURL(string: "http://193.70.40.193:3000/api/users/" + idUser)
                 var request = URLRequest(url: url as! URL)
@@ -213,59 +212,73 @@ class UpdateUserViewController: UIViewController {
                 request.setValue("application/json", forHTTPHeaderField: "Accept")
                 request.setValue(token as String, forHTTPHeaderField: "x-access-token")
                 
-                var jsonObject: [String: Any] = [
-                    "nom": user.nom,
-                    "prenom": user.prenom,
-                    "age": user.age,
-                    "dateNaissance": user.dateNaissance,
-                    "userId": user.userId,
-                    "pseudo": user.pseudo,
-                    "email": user.email,
-                    "role": user.role,
-                    "password": user.password,
-                    "oldPassword": user.oldPassword,
-                    ]
                 
-                debugPrint(JSONSerialization.isValidJSONObject(jsonObject)) // true
+                let postData = NSMutableData(data: ("pseudo="+user.pseudo).data(using: String.Encoding.utf8)!)
+                postData.append(("&nom="+user.nom).data(using: String.Encoding.utf8)!)
+                postData.append(("&prenom="+user.prenom).data(using: String.Encoding.utf8)!)
+                postData.append(("&dateNaissance="+user.dateNaissance).data(using: String.Encoding.utf8)!)
+                postData.append(("&email="+user.email).data(using: String.Encoding.utf8)!)
+                postData.append(("&userId="+String.init(user.userId)).data(using: String.Encoding.utf8)!)
+                postData.append(("&oldPassword="+user.oldPassword).data(using: String.Encoding.utf8)!)
+                postData.append(("&password="+user.password).data(using: String.Encoding.utf8)!)
                 
-                //let header = 	["Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json", "Authorization":"a"]
-                
-                request.httpBody = try! JSONSerialization.data(withJSONObject: jsonObject)
+                request.httpBody = postData as Data
                 
                 debugPrint(Alamofire.request(request).responseJSON { response in
                     
-                    print("fguhjkl")
-                    debugPrint(response)
-                })
-                
-                var url2 = NSURL(string: "http://193.70.40.193:3000/api/address/" + String.init(adresse.id))
-                var request2 = URLRequest(url: url2 as! URL)
-                request2.httpMethod = "POST"
-                request2.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-                request2.setValue("application/json", forHTTPHeaderField: "Accept")
-                request2.setValue(token as String, forHTTPHeaderField: "x-access-token")
-                
-                jsonObject = [
-                    "id": adresse.id,
-                    "userID" : adresse.UserId,
-                    "city" : adresse.city,
-                    "createdAt" : adresse.createdAt,
-                    "updatedAt" : adresse.updatedAt,
-                    "street" : adresse.street,
-                    "type" : adresse.type,
-                ]
-                
-                debugPrint(JSONSerialization.isValidJSONObject(jsonObject)) // true
-                
-                //let header = 	["Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json", "Authorization":"a"]
-                
-                request2.httpBody = try! JSONSerialization.data(withJSONObject: jsonObject)
-                
-                debugPrint(Alamofire.request(request2).responseJSON { response in
                     
-                    print("fguhjkl")
                     debugPrint(response)
                 })
+                print(adresse.city)
+                print(adresse.id)
+                print(adresse.street)
+                print(adresse.UserId)
+                print(adresse.type)
+                print(adresse.ZC)
+                if(adresse.id == 0){
+                    var url2 = NSURL(string: "http://193.70.40.193:3000/api/address" )
+                    var request2 = URLRequest(url: url2 as! URL)
+                    request2.httpMethod = "PUT"
+                    request2.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                    request2.setValue("application/json", forHTTPHeaderField: "Accept")
+                    request2.setValue(token as String, forHTTPHeaderField: "x-access-token")
+                    
+                    let postData2 = NSMutableData(data: ("type="+adresse.type).data(using: String.Encoding.utf8)!)
+                    postData2.append(("&street="+adresse.street).data(using: String.Encoding.utf8)!)
+                    postData2.append(("&city="+adresse.city).data(using: String.Encoding.utf8)!)
+                    postData2.append(("&ZC="+adresse.ZC).data(using: String.Encoding.utf8)!)
+                    postData2.append(("&userID="+String.init(adresse.UserId)).data(using: String.Encoding.utf8)!)
+                    
+                    request2.httpBody = postData2 as Data
+                    
+                    debugPrint(Alamofire.request(request2).responseJSON { response in
+                        
+                        self.alert(texte: "Utilisateur mise à jour")
+                        debugPrint(response)
+                    })
+                }else{
+                    var url2 = NSURL(string: "http://193.70.40.193:3000/api/address/" + String.init(adresse.id))
+                    var request2 = URLRequest(url: url2 as! URL)
+                    request2.httpMethod = "POST"
+                    request2.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                    request2.setValue("application/json", forHTTPHeaderField: "Accept")
+                    request2.setValue(token as String, forHTTPHeaderField: "x-access-token")
+                    
+                    let postData2 = NSMutableData(data: ("type="+adresse.type).data(using: String.Encoding.utf8)!)
+                    postData2.append(("&street="+adresse.street).data(using: String.Encoding.utf8)!)
+                    postData2.append(("&city="+adresse.city).data(using: String.Encoding.utf8)!)
+                    postData2.append(("&ZC="+adresse.ZC).data(using: String.Encoding.utf8)!)
+                    postData2.append(("&userId="+String.init(adresse.UserId)).data(using: String.Encoding.utf8)!)
+                    
+                    request2.httpBody = postData2 as Data
+                    
+                    debugPrint(Alamofire.request(request2).responseJSON { response in
+                        
+                        self.alert(texte: "Utilisateur mise à jour")
+                        debugPrint(response)
+                    })
+                }
+                
                 
                 
             }

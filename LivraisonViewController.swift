@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import SQLite
 
 class LivraisonViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -83,8 +84,67 @@ class LivraisonViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.delaiLivraison.text = String.init(methode.shippingDuration) + " jours"
         cell.nomLivraison.text = methode.name
         cell.prixLivraison.text = String.init(methode.price) + " €"
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SelectionViewController.imageTapped(sender:)))
+        cell.addGestureRecognizer(tapGesture)
         
         return cell
         
+    }
+    
+    func imageTapped(sender : UITapGestureRecognizer) {
+        var tapLocation = sender.location(in: self.tableView)
+        var NSIndexPath = self.tableView.indexPathForRow(at: tapLocation)
+        var liv = self.livraisonsArray[(NSIndexPath?[1])!]
+        
+        let path = NSSearchPathForDirectoriesInDomains(
+            .documentDirectory, .userDomainMask, true
+            ).first!
+        print(path)
+        do{
+            let db = try Connection("\(path)/db.sqlite3")
+            let panier = Table("panier")
+            let idUs = Expression<Int64?>("id_user")
+            let idLivraison = Expression<Int64?>("id_livraison")
+            let prixTotal = Expression<Double?>("prixTotal")
+            let prixTTC = Expression<Double?>("prixTTC")
+            
+            do{
+                do {
+                    do {
+                        if try db.run(panier.filter(idUs == Int64.init(idUser!)).update(idLivraison <- liv.id)) > 0 {
+                            print("updated alice")
+                        } else {
+                            print("alice not found")
+                        }
+                        var ttc = Array(try db.prepare(panier.filter(idUs == Int64.init(idUser!))))[0].get(prixTTC)
+                        if(ttc == nil){
+                            ttc = 0
+                        }
+                        var prixT = Double(liv.price + Float(ttc!))
+                        print(prixT)
+                        if try db.run(panier.filter(idUs == Int64.init(idUser!)).update(prixTotal <- prixT)) > 0 {
+                            print("updated alice")
+                        } else {
+                            print("alice not found")
+                        }
+                        
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let selectionViewController = storyboard.instantiateViewController(withIdentifier: "segue.Payment")
+                        self.present(selectionViewController, animated: true)
+
+                    } catch {
+                        print("update failed: \(error)")
+                    }
+                    
+                } catch {
+                    print("récupération impossible: \(error)")
+                }
+            }catch{
+                print("création de la table panier impossible: \(error)")
+            }
+        }
+        catch{
+            print("connection impossible: \(error)")
+        }
     }
 }

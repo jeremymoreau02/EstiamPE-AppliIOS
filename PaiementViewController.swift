@@ -7,8 +7,19 @@
 //
 
 import UIKit
+import SQLite
+import  Alamofire
 
 class PaiementViewController: UIViewController , PayPalPaymentDelegate{
+    
+    @IBOutlet weak var prixLivraisonLabel: UILabel!
+    @IBOutlet weak var delaLivraisonLabel: UILabel!
+    @IBOutlet weak var methodeLivraisonLabel: UILabel!
+    @IBOutlet weak var nbPhotosLabel: UILabel!
+    
+    @IBOutlet weak var TTCLabel: UILabel!
+    
+    var prixTot: Double = 0
     
     var environment:String = PayPalEnvironmentNoNetwork {
         willSet(newEnvironment) {
@@ -22,6 +33,86 @@ class PaiementViewController: UIViewController , PayPalPaymentDelegate{
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let path = NSSearchPathForDirectoriesInDomains(
+            .documentDirectory, .userDomainMask, true
+            ).first!
+        print(path)
+        do{
+            let db = try Connection("\(path)/db.sqlite3")
+            let panier = Table("panier")
+            let id = Expression<Int64>("id")
+            let idUser = Expression<Int64?>("id_user")
+            let idLivraison = Expression<Int64?>("id_livraison")
+            let nbPhotos = Expression<Int64?>("nb_photos")
+            let prixTTC = Expression<Double?>("prixTTC")
+            let prixTotal = Expression<Double?>("prixTotal")
+            
+            
+            do{
+                do {
+                    let preferences = UserDefaults.standard
+                    var idU = Int64.init(preferences.string(forKey: "userId")! as String)!
+                    var p = Array(try db.prepare(panier.filter(idUser == idU)))[0]
+                    if var a = p.get(idLivraison){
+                        var idLivraison = a
+                        
+                        var url = NSURL(string: "http://193.70.40.193:3000/api/shipping/" + String.init(a))
+                        var request = URLRequest(url: url as! URL)
+                        request.httpMethod = "GET"
+                        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                        var token = preferences.string(forKey: "token")!
+                        request.setValue(token as String, forHTTPHeaderField: "x-access-token")
+                        
+                        
+                        var response = Alamofire.request(request).responseJSON()
+                        if let json = response.result.value {
+                            let JSON = json as! NSDictionary
+                            if (JSON["error"] != nil){
+                                let alert = UIAlertController(title: "Alerte", message:
+                                    JSON["error"]! as! String, preferredStyle: UIAlertControllerStyle.alert)
+                                //Ajout d'une action boutton
+                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+                                //Voir alerte
+                                self.present(alert,animated: true, completion: nil)
+                                
+                            }else{
+                                prixLivraisonLabel.text = String.init(JSON["price"] as! Float)
+                                methodeLivraisonLabel.text = JSON["name"] as! String
+                                delaLivraisonLabel.text = String.init(JSON["shippingDuration"] as! Int)
+                                
+                                
+                            }
+                            
+                            
+                        }
+                    }
+                    if var a = p.get(nbPhotos){
+                        nbPhotosLabel.text = String.init(a)
+                        
+                        
+                    }
+                    
+                    if var a = p.get(prixTTC){
+                        TTCLabel.text = String.init(a)
+                    }else{
+                        TTCLabel.text = "0"
+                    }
+                    
+                    if var a = p.get(prixTotal){
+                        prixTot = a
+                    }
+                    
+                } catch {
+                    print("récupération impossible: \(error)")
+                }
+            }catch{
+                print("création de la table panier impossible: \(error)")
+            }
+        }
+        catch{
+            print("connection impossible: \(error)")
+        }
         
         // Set up payPalConfig
         payPalConfig.acceptCreditCards = false
@@ -63,7 +154,7 @@ class PaiementViewController: UIViewController , PayPalPaymentDelegate{
         // Dispose of any resources that can be recreated.
     }
     @IBAction func paypal(_ sender: Any) {
-         let payment = PayPalPayment(amount: 10.5 , currencyCode: "EUR", shortDescription: "Photos", intent: .sale)
+        let payment = PayPalPayment(amount: NSDecimalNumber.init(value: prixTot) , currencyCode: "EUR", shortDescription: "Photos", intent: .sale)
          
          if (payment.processable) {
             let paymentViewController = PayPalPaymentViewController(payment: payment, configuration: payPalConfig, delegate: self as! PayPalPaymentDelegate)

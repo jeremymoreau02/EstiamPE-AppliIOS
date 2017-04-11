@@ -15,6 +15,7 @@ class MessageDestinataireViewController: UIViewController {
     var destinataire: Destinataire?
     
     var image : Photo = Photo(url: URL(string: "https://www.apple.com")!, uiimage: UIImage())
+    var urlFinale: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()

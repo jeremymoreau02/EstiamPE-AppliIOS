@@ -47,20 +47,20 @@ class SelectionViewController: UIViewController, UINavigationControllerDelegate,
             do{
                 try db.run(panier.create(ifNotExists: true) { t in     // CREATE TABLE "users" (
                     t.column(id, primaryKey: true) //     "id" INTEGER PRIMARY KEY NOT NULL,
-                    t.column(idLivraison)
-                    t.column(idUser)
-                    t.column(idAdresse)
-                    t.column(nbPhotos)
-                    t.column(prixHT)
-                    t.column(prixTTC)
-                    t.column(fdp)
-                    t.column(prixTotal)
-                    t.column(nomFacturation)
-                    t.column(prenomFacturation)
-                    t.column(cpFacturation)
-                    t.column(villeFacturation)
-                    t.column(rueFacturation)
-                    t.column(status)
+                    t.column(idLivraison, defaultValue: 0)
+                    t.column(idUser, defaultValue: 0)
+                    t.column(idAdresse, defaultValue: 0)
+                    t.column(nbPhotos, defaultValue: 0)
+                    t.column(prixHT, defaultValue: 0)
+                    t.column(prixTTC, defaultValue: 0)
+                    t.column(fdp, defaultValue: 0)
+                    t.column(prixTotal, defaultValue: 0)
+                    t.column(nomFacturation, defaultValue: "")
+                    t.column(prenomFacturation, defaultValue: "")
+                    t.column(cpFacturation, defaultValue: "")
+                    t.column(villeFacturation, defaultValue: "")
+                    t.column(rueFacturation, defaultValue: "")
+                    t.column(status, defaultValue: "")
                 })
                 do {
                     let preferences = UserDefaults.standard
@@ -100,7 +100,7 @@ class SelectionViewController: UIViewController, UINavigationControllerDelegate,
     
     @IBAction func prendrePhotoBoutton(_ sender: AnyObject)
     {
-        if UIImagePickerController.isSourceTypeAvailable (UIImagePickerControllerSourceType.camera)
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)
         {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self

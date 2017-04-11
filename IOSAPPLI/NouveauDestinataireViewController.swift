@@ -25,6 +25,7 @@ class NouveauDestinataireViewController: UIViewController, UIPickerViewDelegate,
     @IBOutlet weak var contact: UIImageView!
     
     var image : Photo = Photo(url: URL(string: "https://www.apple.com")!, uiimage: UIImage())
+    var urlFinale: String?
     
     var idU: Int64 = 0
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -32,18 +33,33 @@ class NouveauDestinataireViewController: UIViewController, UIPickerViewDelegate,
      var pickerData: [String] = [String]()
     
     @IBAction func onClickContact(_ sender: Any) {
-        let contactPickerViewController = CNContactPickerViewController()
+        let controller = CNContactPickerViewController()
         
-        contactPickerViewController.predicateForEnablingContact = NSPredicate(format: "Contacts != nil")
+        controller.delegate = self
         
-        contactPickerViewController.delegate = self
-        
-        self.present(contactPickerViewController, animated: true, completion: nil)
+        self.present(controller, animated: true, completion: nil)
     }
     
-    func contactPicker(picker: CNContactPickerViewController, didSelectContact contact: CNContact) {
-        debugPrint(contact)
-        navigationController?.popViewController(animated: true)
+    func contactPickerDidCancel(picker: CNContactPickerViewController) {
+        print("Cancelled picking a contact")
+    }
+    
+    func contactPicker(picker: CNContactPickerViewController,
+                       didSelectContact contact: CNContact) {
+        
+        print("Selected a contact")
+        
+        if contact.isKeyAvailable(CNContactPhoneNumbersKey){
+            //this is an extension I've written on CNContact
+            debugPrint(contact)
+        } else {
+            /*
+             TOOD: partially fetched, use what you've learnt in this chapter to
+             fetch the rest of this contact
+             */
+            print("No phone numbers are available")
+        }
+        
     }
     
     override func viewDidLoad() {
