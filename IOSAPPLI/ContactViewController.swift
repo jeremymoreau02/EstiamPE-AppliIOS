@@ -85,6 +85,9 @@ class ContactViewController: UIViewController {
                     
                     print("fguhjkl")
                     debugPrint(response)
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let selectionViewController = storyboard.instantiateViewController(withIdentifier: "segue.Selec")
+                    self.present(selectionViewController, animated: true)
                 })
             }
         }

@@ -14,10 +14,10 @@ class panierCellTableViewCell: UITableViewCell {
     
     @IBOutlet weak var img: UIImageView!
     
+    @IBOutlet weak var masquePanier: UIImageView!
     @IBOutlet weak var suppBtn: UIButton!
     @IBOutlet weak var supprimer: UIImageView!
     @IBOutlet weak var prix: UILabel!
     @IBOutlet weak var moins: UIButton!
     @IBOutlet weak var plus: UIButton!
-    @IBOutlet weak var desc: UITextView!
 }

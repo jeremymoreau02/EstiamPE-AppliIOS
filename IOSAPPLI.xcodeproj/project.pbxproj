@@ -42,6 +42,7 @@
 		16F030141E88291C00D16E91 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F0300B1E88291C00D16E91 /* SystemConfiguration.framework */; };
 		16F2FABD1E9696A4007D864F /* Masks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F2FABC1E9696A4007D864F /* Masks.swift */; };
 		16F2FABF1E96974A007D864F /* Dimensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F2FABE1E96974A007D864F /* Dimensions.swift */; };
+		16F39F091E9ED6F30030A654 /* MessagesDestinataires.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F39F081E9ED6F30030A654 /* MessagesDestinataires.swift */; };
 		307CA8A4F9DE3733D7171892 /* Pods_IOSAPPLI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2356E14389D231CE63C932BF /* Pods_IOSAPPLI.framework */; };
 		B743A5561E057E9F00A0A233 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743A5551E057E9F00A0A233 /* AppDelegate.swift */; };
 		B743A5581E057E9F00A0A233 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743A5571E057E9F00A0A233 /* ViewController.swift */; };
@@ -90,6 +91,7 @@
 		16F030151E882A5600D16E91 /* IOSAPPLI-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IOSAPPLI-Bridging-Header.h"; sourceTree = "<group>"; };
 		16F2FABC1E9696A4007D864F /* Masks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Masks.swift; sourceTree = "<group>"; };
 		16F2FABE1E96974A007D864F /* Dimensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dimensions.swift; sourceTree = "<group>"; };
+		16F39F081E9ED6F30030A654 /* MessagesDestinataires.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesDestinataires.swift; sourceTree = "<group>"; };
 		2356E14389D231CE63C932BF /* Pods_IOSAPPLI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOSAPPLI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23CC53C7CD5493AB4506EB2F /* Pods-IOSAPPLI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSAPPLI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IOSAPPLI/Pods-IOSAPPLI.debug.xcconfig"; sourceTree = "<group>"; };
 		B6CB5E616D5687903F21F6F2 /* Pods-IOSAPPLI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSAPPLI.release.xcconfig"; path = "Pods/Target Support Files/Pods-IOSAPPLI/Pods-IOSAPPLI.release.xcconfig"; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				165C98E61E93E252000DEB72 /* Panier.swift */,
 				16F2FABC1E9696A4007D864F /* Masks.swift */,
 				16F2FABE1E96974A007D864F /* Dimensions.swift */,
+				16F39F081E9ED6F30030A654 /* MessagesDestinataires.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 				16B8E0F11E84661A00AFB281 /* Adresse.swift in Sources */,
 				169600371E8720C4005E9E2F /* PaiementViewController.swift in Sources */,
 				1667701E1E64E2C4001BF0BA /* Photo.swift in Sources */,
+				16F39F091E9ED6F30030A654 /* MessagesDestinataires.swift in Sources */,
 				B743A56C1E070EE300A0A233 /* SelectionViewController.swift in Sources */,
 				169600351E871D38005E9E2F /* FacturationViewController.swift in Sources */,
 				B743A5561E057E9F00A0A233 /* AppDelegate.swift in Sources */,

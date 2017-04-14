@@ -14,7 +14,11 @@ class EditPhotoViewController: UIViewController, UINavigationControllerDelegate,
     
     @IBOutlet weak var formatPicker: UIPickerView!
     var image : Photo = Photo(url: URL(string: "https://www.apple.com")!, uiimage: UIImage())
+    
     var imageMsq: UIImage?
+    var imageUrl: String?
+    var imageId: Int64?
+    var imagePrix: Double?
     
     @IBOutlet weak var imageView: UIImageView!
     
@@ -25,6 +29,7 @@ class EditPhotoViewController: UIViewController, UINavigationControllerDelegate,
     
     var masquesDisplay: [Masks] = [Masks]()
     var imagesMasques: [UIImage] = [UIImage]()
+    var indexImageMsq: Int?
     
     var imageCounter: Int = 0
     
@@ -208,25 +213,76 @@ class EditPhotoViewController: UIViewController, UINavigationControllerDelegate,
     }
     
     @IBAction func onClickValider(_ sender: Any) {
+        if(indexImageMsq != nil){
+            let maskImage = imagesMasques[indexImageMsq!]
+            let maskRef = maskImage.cgImage
+            
+            let mask = CGImage(
+                maskWidth: (maskRef?.width)!,
+                height: maskRef!.height,
+                bitsPerComponent: maskRef!.bitsPerComponent,
+                bitsPerPixel: maskRef!.bitsPerPixel,
+                bytesPerRow: maskRef!.bytesPerRow,
+                provider: maskRef!.dataProvider!,
+                decode: nil,
+                shouldInterpolate: true)
+            let masked: CGImage? = self.image.uiimage.cgImage?.masking(mask!)
+            if(masked != nil){
+                let maskedImage: UIImage? = UIImage(cgImage: masked!)
+                let date = Date()
+                let formatter = DateFormatter()
+                
+                formatter.dateFormat = "yyyyMMdd_HHmmss"
+                
+                let result = formatter.string(from: date)
+                
+                let imagePath = getDocumentsDirectory().appendingPathComponent(result + ".jpg")
+                let path = URL(fileURLWithPath: imagePath)
+                if let jpegData = UIImageJPEGRepresentation(self.image.uiimage, 80) {
+                    try! jpegData.write(to: path, options: [.atomic])
+                    urlFinale = path.path
+                }
+                
+                /*let imageData = NSData(data:UIImagePNGRepresentation(self.image.uiimage)!)
+                let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
+                var docs: String = paths[0]
+                let fullPath = docs + "/" + result + ".png"
+                print(fullPath)
+                let result2 = imageData.write(toFile: fullPath, atomically: true)*/
+                //urlFinale = imageData.url
+                
+                
+                self.performSegue(withIdentifier: "segue.destinataires", sender: self)
+            }
+        }else{
+            alert(texte: "Veuillez choisir un masque")
+        }
         
-        let date = Date()
-        let formatter = DateFormatter()
-        
-        formatter.dateFormat = "yyyyMMdd_HHmmss"
-        
-        let result = formatter.string(from: date)
-       
-            let imageData = NSData(data:UIImagePNGRepresentation(imageMsq!)!)
-            let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
-            var docs: String = paths[0]
-            let fullPath = docs + "/" + result + ".png"
-            print(fullPath)
-            let result2 = imageData.write(toFile: fullPath, atomically: true)
-        urlFinale = fullPath
         
         
-        self.performSegue(withIdentifier: "segue.destinataires", sender: self)
+        
+        
     }
+    
+    func getDocumentsDirectory() -> NSString {
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let documentsDirectory = paths[0]
+        return documentsDirectory as NSString
+    }
+    
+    func alert(texte: String){
+        //Afficher un message d'alerte
+        
+        //Création de l'alerte
+        let alert = UIAlertController(title: "Alerte", message:
+            texte, preferredStyle: UIAlertControllerStyle.alert)
+        //Ajout d'une action boutton
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+        //Voir alerte
+        self.present(alert,animated: true, completion: nil)
+        
+    }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -235,6 +291,9 @@ class EditPhotoViewController: UIViewController, UINavigationControllerDelegate,
             
             destinatairesViewController.urlFinale = urlFinale
             destinatairesViewController.image = image
+            destinatairesViewController.imageUrl = imageUrl
+            destinatairesViewController.imageId = imageId
+            destinatairesViewController.imagePrix = imagePrix
         }
     }
     
@@ -311,7 +370,7 @@ class EditPhotoViewController: UIViewController, UINavigationControllerDelegate,
         
 
                         let maskImage = imagesMasques[NSIndexPath[1]]
-                        let maskRef = maskImage.cgImage;
+                        let maskRef = maskImage.cgImage
                         
                         let mask = CGImage(
                             maskWidth: (maskRef?.width)!,
@@ -326,10 +385,13 @@ class EditPhotoViewController: UIViewController, UINavigationControllerDelegate,
                         if(masked != nil){
                             let maskedImage: UIImage? = UIImage(cgImage: masked!)
                             imageMsq = maskedImage
+                            imageUrl = url
+                            imageId = self.masques[NSIndexPath[1]].id
+                            imagePrix = self.masques[NSIndexPath[1]].price
                             self.imageView.image = maskedImage
        
             }
-         self.imageView.image = imageMsq
+         self.indexImageMsq = NSIndexPath[1]
     }
     
 }

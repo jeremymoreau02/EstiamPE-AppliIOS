@@ -217,7 +217,7 @@ class SelectionViewController: UIViewController, UINavigationControllerDelegate,
             editPhotoViewController.image = sender as! Photo
             
         }
-    }
+    }   
     
     @IBAction func parametresBtn(_ sender: Any) {
         performSegue(withIdentifier: "segue.userinfos", sender: self)

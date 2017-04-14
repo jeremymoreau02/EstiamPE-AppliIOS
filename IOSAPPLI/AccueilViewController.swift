@@ -19,13 +19,7 @@ class AccueilViewController: UIViewController {
         if (preferences.string(forKey: "DejaUtilise") != nil){
             
             if (preferences.string(forKey: "DejaUtilise")! as String == "oui"){
-                print("dgdfgdf="+preferences.string(forKey: "DejaUtilise")!  as String)
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                print(storyboard)
-                
-                let viewController = storyboard.instantiateViewController(withIdentifier: "segue.login")
-                print(viewController)
-                present(viewController, animated: true)
+                performSegue(withIdentifier: "segue.connec", sender: self)
             }
         }
     }

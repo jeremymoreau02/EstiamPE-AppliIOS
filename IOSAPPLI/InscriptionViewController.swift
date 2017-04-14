@@ -104,30 +104,54 @@ class InscriptionViewController: UIViewController {
                     if(isValidEmail(testStr: email) == false){
                         alert(texte: "L'adresse email est invalide")
                     }
+                    if(mdp != repmdp){
+                        alert(texte: "Les mots de passes sont différents")
+                    }
                     let url = NSURL(string: "http://193.70.40.193:3000/api/inscription")
                     var request = URLRequest(url: url as! URL)
                     request.httpMethod = "PUT"
                     request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
                     request.setValue("application/json", forHTTPHeaderField: "Accept")
                 
-                    let jsonObject: [String: String] = [
-                        "pseudo": "mimir02",
-                        "password"	: "virgule02"
+                    /*let jsonObject: [String: Any] = [
+                        "pseudo": pseudo,
+                        "password"	: mdp,
+                        "email" : email,
+                        "nom" : nom,
+                        "prenom" : prenom,
+                        "birthday": year + "-" + month + "-" + day
                     ]
                 
                     debugPrint(JSONSerialization.isValidJSONObject(jsonObject)) // true
                 
                     //let header = 	["Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json", "Authorization":"a"]
                 
-                    request.httpBody = try! JSONSerialization.data(withJSONObject: jsonObject)
+                    request.httpBody = try! JSONSerialization.data(withJSONObject: jsonObject)*/
+                    
+                    let postData2 = NSMutableData(data: ("pseudo="+pseudo).data(using: String.Encoding.utf8)!)
+                    postData2.append(("&password="+mdp).data(using: String.Encoding.utf8)!)
+                    postData2.append(("&email="+email).data(using: String.Encoding.utf8)!)
+                    postData2.append(("&nom="+nom).data(using: String.Encoding.utf8)!)
+                    postData2.append(("&prenom="+prenom).data(using: String.Encoding.utf8)!)
+                    postData2.append(("&birthday="+year + "-" + month + "-" + day).data(using: String.Encoding.utf8)!)
+                    
+                    request.httpBody = postData2 as Data
                 
                     debugPrint(Alamofire.request(request).responseJSON { response in
                     
                         print("fguhjkl")
                         debugPrint(response)
+                        if (((response.result.value as? NSDictionary)?["message"] as? String) != nil){
+                            self.alert(texte: "L'utilisateur existe déjà")
+                        }else{
+                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                            let selectionViewController = storyboard.instantiateViewController(withIdentifier: "segue.login")
+                            self.present(selectionViewController, animated: true)
+                        }
+                        
                     })
 
-                    //performSegue(withIdentifier: "segue.selec", sender: self)
+                    
                 }
         }
     }

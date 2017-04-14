@@ -83,7 +83,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     preferences.synchronize()
                          appelsApi()
                         
-                        performSegue(withIdentifier: "segue.selec", sender: self)
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let selectionViewController = storyboard.instantiateViewController(withIdentifier: "segue.Selec")
+                        self.present(selectionViewController, animated: true)
                     }
                     
                     
@@ -323,23 +325,19 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 let mns :Int = Int(splitDate[1].characters.split { $0 == ":" }.map(String.init)[1])!
                 let sec :Int = Int(splitDate[1].characters.split { $0 == ":" }.map(String.init)[2])!
                 
-                let c = NSDateComponents()
-                c.year = year
-                c.month = month
-                c.day = day+1
-                c.minute = mns
-                c.hour = hours
-                c.second = sec
+                var anneeDiff = annee - year
+                var moisDiff = mois - month
+                var dayDiff = jour - day
+                var heuresDiff = heures - hours
+                var minutesDiff = minutes - mns
+                var secondesDiff = secondes - sec
                 
-                // Get NSDate given the above date components
-                let datePref = NSCalendar(identifier: NSCalendar.Identifier.gregorian)?.date(from: c as DateComponents)
-                
-                
-                let jhgj = date.compare(datePref!)
-                
-                if date.compare(datePref! as Date) == ComparisonResult.orderedDescending{
-                    performSegue(withIdentifier: "segue.selec", sender: self)
+                if((anneeDiff == 0) && (moisDiff == 0) && (dayDiff <= 1) && ((heuresDiff * minutesDiff * secondesDiff) < 86400)){
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let selectionViewController = storyboard.instantiateViewController(withIdentifier: "segue.Selec")
+                    self.present(selectionViewController, animated: true)
                 }
+                
                 
             }
         }

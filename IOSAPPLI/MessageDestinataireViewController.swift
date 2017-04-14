@@ -16,6 +16,11 @@ class MessageDestinataireViewController: UIViewController {
     
     var image : Photo = Photo(url: URL(string: "https://www.apple.com")!, uiimage: UIImage())
     var urlFinale: String?
+    var imageMsq: UIImage?
+    
+    var imageUrl: String?
+    var imageId: Int64?
+    var imagePrix: Double?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -166,7 +171,11 @@ class MessageDestinataireViewController: UIViewController {
             let destinatairesViewController = segue.destination as! DestinatairesViewController
             
             destinatairesViewController.image = self.image
-            
+            destinatairesViewController.imageMsq = self.imageMsq
+            destinatairesViewController.imageUrl = imageUrl
+            destinatairesViewController.imageId = imageId
+            destinatairesViewController.imagePrix = imagePrix
+            destinatairesViewController.urlFinale = self.urlFinale
         }
     }
     

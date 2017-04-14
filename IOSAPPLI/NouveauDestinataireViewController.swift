@@ -24,6 +24,12 @@ class NouveauDestinataireViewController: UIViewController, UIPickerViewDelegate,
     @IBOutlet weak var ville: UITextField!
     @IBOutlet weak var contact: UIImageView!
     
+    var imageMsq: UIImage?
+    
+    var imageUrl: String?
+    var imageId: Int64?
+    var imagePrix: Double?
+    
     var image : Photo = Photo(url: URL(string: "https://www.apple.com")!, uiimage: UIImage())
     var urlFinale: String?
     
@@ -31,14 +37,6 @@ class NouveauDestinataireViewController: UIViewController, UIPickerViewDelegate,
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
     
      var pickerData: [String] = [String]()
-    
-    @IBAction func onClickContact(_ sender: Any) {
-        let controller = CNContactPickerViewController()
-        
-        controller.delegate = self
-        
-        self.present(controller, animated: true, completion: nil)
-    }
     
     func contactPickerDidCancel(picker: CNContactPickerViewController) {
         print("Cancelled picking a contact")
@@ -176,6 +174,11 @@ class NouveauDestinataireViewController: UIViewController, UIPickerViewDelegate,
             let destinatairesViewController = segue.destination as! DestinatairesViewController
             
             destinatairesViewController.image = self.image
+            destinatairesViewController.imageMsq = self.imageMsq
+            destinatairesViewController.imageUrl = imageUrl
+            destinatairesViewController.imageId = imageId
+            destinatairesViewController.imagePrix = imagePrix
+            destinatairesViewController.urlFinale = self.urlFinale
             
         }
     }

@@ -53,8 +53,6 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
                     t.column(uriFinaleCol, defaultValue: "")
                     t.column(descriptionCol, defaultValue: "")
                     t.column(prixCol, defaultValue: 0)
-            
-
                 })
                 
                 do {
@@ -63,6 +61,17 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
                     var idPanier = Int64.init(preferences.string(forKey: "idPanier")! as String)!
                     let all = Array(try db.prepare(photoModifiee.filter(idUserCol == idU && idPanierCol == idPanier)))
                     for var photo in all{
+                        var ddfsg = photo[idCol]
+                        ddfsg = photo[idMasqueCol]!
+                        ddfsg = photo[idFormatCol]!
+                        ddfsg = photo[idPanierCol]!
+                        ddfsg = photo[idUserCol]!
+                        ddfsg = photo[nbPhotosCol]!
+                        var ygkj = photo[nameCol]!
+                        ygkj = photo[uriOrigineCol]!
+                        ygkj = photo[descriptionCol]!
+                        var ijhlkj = photo[prixCol]!
+                        
                         let p = PhotoModifiee(id: photo[idCol], idMasque: photo[idMasqueCol]!, idFormat: photo[idFormatCol]!, idPanier: photo[idPanierCol]!, idUser: photo[idUserCol]!, nbPhotos: photo[nbPhotosCol]!, name: photo[nameCol]!, uriOrigine: photo[uriOrigineCol]!, uriFinale: photo[uriFinaleCol]!, description: photo[descriptionCol]!, prix: Float(photo[prixCol]!))
                         
                         listePhotos.append(p)
@@ -178,9 +187,9 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
                     }
                     
                                     
-                    self.prixHTTotal.text = String.init(panierModel.prixHT)
-                    self.prixTTCTotal.text = String.init(panierModel.prixTTC)
-                    self.nbPhotosTotal.text = String.init(panierModel.nbPhotos)
+                    self.prixHTTotal.text = String.init(panierModel.prixHT) + "€"
+                    self.prixTTCTotal.text = String.init(panierModel.prixTTC) + "€"
+                    self.nbPhotosTotal.text = String.init(panierModel.nbPhotos) + "€"
                 } catch {
                     print("récupération impossible: \(error)")
                 }
@@ -206,13 +215,66 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return listePhotos.count
     }
+    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+        let size = image.size
+        
+        let widthRatio  = targetSize.width  / image.size.width
+        let heightRatio = targetSize.height / image.size.height
+        
+        // Figure out what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+        }
+        
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "panierCell", for: indexPath) as! panierCellTableViewCell
         let photo = listePhotos[indexPath.row] as PhotoModifiee
         
-        cell.desc.text = photo.description
-        cell.prix.text = String.init(photo.prix)
+        let catPictureURL = URL(string: "http://193.70.40.193:3000/" + photo.uriFinale)!
+        
+        let session = URLSession(configuration: .default)
+        
+        // Define a download task. The download task will download the contents of the URL as a Data object and then you can do what you wish with that data.
+        let downloadPicTask = session.dataTask(with: catPictureURL) { (data, response, error) in
+            // The download has finished.
+            if let e = error {
+                print("Error downloading cat picture: \(e)")
+            } else {
+                // No errors found.
+                // It would be weird if we didn't have a response, so check for that too.
+                if let res = response as? HTTPURLResponse {
+                    print("Downloaded cat picture with response code \(res.statusCode)")
+                    if let imageData = data {
+                        // Finally convert that Data into an image and do what you wish with it.
+                    
+                        cell.masquePanier.image = self.resizeImage(image: UIImage(data: imageData)!, targetSize: CGSize(width: 55, height: 55))
+                        // Do something with your image.
+                    } else {
+                        print("Couldn't get image: Image is nil")
+                    }
+                } else {
+                    print("Couldn't get response code for some reason")
+                }
+            }
+        }
+        
+        downloadPicTask.resume()
+        cell.prix.text = String.init(photo.prix) + "€"
         cell.qte.text = String.init(photo.nbPhotos)
     
         var tapGesture = UITapGestureRecognizer(target: self, action: #selector(PanierTableViewController.moinsTapped(sender:)))
@@ -224,13 +286,10 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(PanierTableViewController.suppTapped(sender:)))
         cell.suppBtn.addGestureRecognizer(tapGesture)
         
-        if let url = NSURL(string: photo.uriFinale) {
-            print(url)
-            if let data = NSData(contentsOf: url as URL) {
-                cell.img.image = UIImage(data: data as Data)
-            }        
+        if FileManager.default.fileExists(atPath: photo.uriOrigine ) {
+            let url = NSURL(string: photo.uriOrigine )
+            cell.img.image = UIImage(contentsOfFile: photo.uriOrigine)
         }
-        
         return cell
         
     }
@@ -244,6 +303,7 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
             
             panierModel.nbPhotos += 1
             panierModel.prixHT = Double(Float.init(panierModel.prixHT) - photo.prix + (photo.prix / Float.init(photo.nbPhotos)) * (Float.init(photo.nbPhotos) + 1))
+            panierModel.prixTTC = panierModel.prixHT * 1.206
             photo.prix = (photo.prix / Float.init(photo.nbPhotos)) * (Float.init(photo.nbPhotos) + 1)
             photo.nbPhotos += 1
             
@@ -258,6 +318,7 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
                 let idUser = Expression<Int64?>("id_user")
                 let id = Expression<Int64?>("id")
                 let prixHT = Expression<Double?>("prixHT")
+                let prixTTC = Expression<Double?>("prixTTC")
                 
                 do{
                     do {
@@ -267,7 +328,7 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
                             } else {
                                 print("alice not found")
                             }
-                            if try db.run(panier.filter(id == panierModel.id).update(prixHT <- panierModel.prixHT)) > 0 {
+                            if try db.run(panier.filter(id == panierModel.id).update(prixHT <- panierModel.prixHT, prixTTC <- panierModel.prixTTC)) > 0 {
                                 print("updated alice")
                             } else {
                                 print("alice not found")
@@ -306,7 +367,7 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
                 do{
                     do {
                         do {
-                            if try db.run(photoModifiee.filter(idCol == photo.id).update(nbPhotosCol <- photo.nbPhotos)) > 0 {
+                            if try db.run(photoModifiee.filter(idCol == photo.id).update(nbPhotosCol <- photo.nbPhotos, prixCol <- Double.init(photo.prix))) > 0 {
                                 print("updated alice")
                             } else {
                                 print("alice not found")
@@ -332,9 +393,9 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
         }
         
         
-        self.prixHTTotal.text = String.init(panierModel.prixHT)
-        self.prixTTCTotal.text = String.init(panierModel.prixTTC)
-        self.nbPhotosTotal.text = String.init(panierModel.nbPhotos)
+        self.prixHTTotal.text = String.init(panierModel.prixHT) + "€"
+        self.prixTTCTotal.text = String.init(panierModel.prixTTC) + "€"
+        self.nbPhotosTotal.text = String.init(panierModel.nbPhotos) + "€"
     
     
         panierTableView.reloadData()
@@ -350,6 +411,7 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
             
             panierModel.nbPhotos -= 1
             panierModel.prixHT = Double(Float.init(panierModel.prixHT) - photo.prix + (photo.prix / Float.init(photo.nbPhotos)) * (Float.init(photo.nbPhotos) - 1))
+            panierModel.prixTTC = panierModel.prixHT * 1.206
             photo.prix = (photo.prix / Float.init(photo.nbPhotos)) * (Float.init(photo.nbPhotos) - 1)
             photo.nbPhotos -= 1
             
@@ -364,6 +426,7 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
                 let idUser = Expression<Int64?>("id_user")
                 let id = Expression<Int64?>("id")
                 let prixHT = Expression<Double?>("prixHT")
+                let prixTTC = Expression<Double?>("prixTTC")
                 
                 do{
                     do {
@@ -373,9 +436,9 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
                             } else {
                                 print("alice not found")
                             }
-                            if try db.run(panier.filter(id == panierModel.id).update(prixHT <- panierModel.prixHT)) > 0 {
+                            if try db.run(panier.filter(id == panierModel.id).update(prixHT <- panierModel.prixHT, prixTTC <- panierModel.prixTTC) ) > 0 {
                                 print("updated alice")
-                            } else {
+                            }else {
                                 print("alice not found")
                             }
                         } catch {
@@ -412,7 +475,7 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
                 do{
                     do {
                         do {
-                            if try db.run(photoModifiee.filter(idCol == photo.id).update(nbPhotosCol <- photo.nbPhotos)) > 0 {
+                            if try db.run(photoModifiee.filter(idCol == photo.id).update(nbPhotosCol <- photo.nbPhotos, prixCol <- Double.init(photo.prix))) > 0 {
                                 print("updated alice")
                             } else {
                                 print("alice not found")
@@ -438,9 +501,9 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
         }
         
         
-        self.prixHTTotal.text = String.init(panierModel.prixHT)
-        self.prixTTCTotal.text = String.init(panierModel.prixTTC)
-        self.nbPhotosTotal.text = String.init(panierModel.nbPhotos)
+        self.prixHTTotal.text = String.init(panierModel.prixHT) + "€"
+        self.prixTTCTotal.text = String.init(panierModel.prixTTC) + "€"
+        self.nbPhotosTotal.text = String.init(panierModel.nbPhotos) + "€"
         
         
 
@@ -455,6 +518,7 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
         
             panierModel.nbPhotos -= photo.nbPhotos
             panierModel.prixHT = panierModel.prixHT - Double.init(photo.prix)
+        panierModel.prixTTC = panierModel.prixHT * 1.206
         
             let path = NSSearchPathForDirectoriesInDomains(
                 .documentDirectory, .userDomainMask, true
@@ -466,6 +530,7 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
                 let idUser = Expression<Int64?>("id_user")
                 let id = Expression<Int64?>("id")
                 let prixHT = Expression<Double?>("prixHT")
+                let prixTTC = Expression<Double?>("prixTTC")
                 
                 do{
                     do {
@@ -475,7 +540,7 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
                             } else {
                                 print("alice not found")
                             }
-                            if try db.run(panier.filter(id == panierModel.id).update(prixHT <- panierModel.prixHT)) > 0 {
+                            if try db.run(panier.filter(id == panierModel.id).update(prixHT <- panierModel.prixHT, prixTTC <- panierModel.prixTTC) ) > 0 {
                                 print("updated alice")
                             } else {
                                 print("alice not found")
@@ -500,9 +565,9 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
         
         
         
-        self.prixHTTotal.text = String.init(panierModel.prixHT)
-        self.prixTTCTotal.text = String.init(panierModel.prixTTC)
-        self.nbPhotosTotal.text = String.init(panierModel.nbPhotos)
+        self.prixHTTotal.text = String.init(panierModel.prixHT) + "€"
+        self.prixTTCTotal.text = String.init(panierModel.prixTTC) + "€"
+        self.nbPhotosTotal.text = String.init(panierModel.nbPhotos) + "€"
         
         listePhotos.remove(at: (NSIndexPath?[1])!)
         

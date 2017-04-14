@@ -34,33 +34,49 @@ class FacturationViewController: UIViewController {
             alert(texte: "Veuillez renseigner tout les champs")
         }
         var url = NSURL(string: "http://193.70.40.193:3000/api/address")
-        var request = URLRequest(url: url as! URL)
-        request.httpMethod = "PUT"
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        var requestA = URLRequest(url: url as! URL)
+        requestA.httpMethod = "PUT"
+        requestA.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        requestA.setValue("application/json", forHTTPHeaderField: "Accept")
         
         let preferences = UserDefaults.standard
         var token = preferences.string(forKey: "token")!
 
-        request.setValue(token as String, forHTTPHeaderField: "x-access-token")
+        requestA.setValue(token as String, forHTTPHeaderField: "x-access-token")
         
         let idU = Int.init(preferences.string(forKey: "userId")! as String)!
         
         let postData = NSMutableData(data: ("ZC="+cp.text!).data(using: String.Encoding.utf8)!)
         postData.append(("&street="+rue.text!).data(using: String.Encoding.utf8)!)
         postData.append(("&city="+ville.text!).data(using: String.Encoding.utf8)!)
-        postData.append(("&lastname="+nom.text!).data(using: String.Encoding.utf8)!)
-        postData.append(("&firstname="+prenom.text!).data(using: String.Encoding.utf8)!)
+        postData.append(("&nom="+nom.text!).data(using: String.Encoding.utf8)!)
+        postData.append(("&prenom="+prenom.text!).data(using: String.Encoding.utf8)!)
         postData.append(("&type="+"Billing").data(using: String.Encoding.utf8)!)
         postData.append(("&userID="+String.init(idU)).data(using: String.Encoding.utf8)!)
         
-        request.httpBody = postData as Data
-
-        debugPrint(Alamofire.request(request).responseJSON { response in
+        let jsonObject: [String: Any] = [
+            "street": rue.text!,
+            "ZC"	: cp.text!,
+            "city"  : ville.text!,
+            "nom"   : nom.text!,
+            "prenom": prenom.text!,
+            "type"  : "Billing",
+            "userID": idU
+        ]
+        
+        debugPrint(JSONSerialization.isValidJSONObject(jsonObject)) // true
+        
+        //let header = 	["Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json", "Authorization":"a"]
+        
+        requestA.httpBody = postData as Data
+        
+        print(NSString(data: (requestA.httpBody)!, encoding: String.Encoding.utf8.rawValue))
+        var a = Alamofire.request(requestA).responseJSON()
+        if let response = a.result.value{
             print(response)
             
             url = NSURL(string: "http://193.70.40.193:3000/api/address/" + String.init(idU))
-            request = URLRequest(url: url as! URL)
+            var request = URLRequest(url: url as! URL)
             request.httpMethod = "GET"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             token = preferences.string(forKey: "token")!
@@ -117,7 +133,7 @@ class FacturationViewController: UIViewController {
             }
             
             
-        })
+        }
         
         performSegue(withIdentifier: "segue.livraison", sender: self)
         

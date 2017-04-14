@@ -13,11 +13,15 @@ class DestinatairesViewController: UIViewController,  UICollectionViewDelegateFl
     
     var panierModel: Panier = Panier()
 
-    @IBOutlet weak var collView: UICollectionView!
     @IBOutlet weak var collectionView: UICollectionView!
     
     var image : Photo = Photo(url: URL(string: "https://www.apple.com")!, uiimage: UIImage())
+    var imageMsq: UIImage?
     var urlFinale: String?
+    
+    var imageUrl: String?
+    var imageId: Int64?
+    var imagePrix: Double?
     
     var cellCounter: Int = 0
     var indexCell = 0
@@ -254,8 +258,8 @@ class DestinatairesViewController: UIViewController,  UICollectionViewDelegateFl
     }
     
     func cellModTapped(sender : UITapGestureRecognizer) {
-        var tapLocation = sender.location(in: self.collView)
-        var NSIndexPath = self.collView.indexPathForItem(at: tapLocation)!
+        var tapLocation = sender.location(in: self.collectionView)
+        var NSIndexPath = self.collectionView.indexPathForItem(at: tapLocation)!
         self.performSegue(withIdentifier: "segue.message", sender: self.destinatairesArray[NSIndexPath[1]])
     }
     
@@ -267,13 +271,18 @@ class DestinatairesViewController: UIViewController,  UICollectionViewDelegateFl
             messageDestinataireViewController.destinataire = sender as! Destinataire
             messageDestinataireViewController.image = self.image
             messageDestinataireViewController.urlFinale = self.urlFinale
-        }
+            messageDestinataireViewController.imageUrl = imageUrl!
+            messageDestinataireViewController.imageId = imageId!
+            messageDestinataireViewController.imagePrix = imagePrix!}
         
         if segue.identifier == "segue.newDestinataire" {
             let nouveauDestinataireViewController = segue.destination as! NouveauDestinataireViewController
             
             nouveauDestinataireViewController.image = self.image
             nouveauDestinataireViewController.urlFinale = self.urlFinale
+            nouveauDestinataireViewController.imageUrl = imageUrl
+            nouveauDestinataireViewController.imageId = imageId
+            nouveauDestinataireViewController.imagePrix = imagePrix
         }
         
         if segue.identifier == "segue.retEdition" {
@@ -281,13 +290,16 @@ class DestinatairesViewController: UIViewController,  UICollectionViewDelegateFl
             
             editPhotoViewController.image = self.image
             editPhotoViewController.urlFinale = self.urlFinale
+            editPhotoViewController.imageUrl = imageUrl
+            editPhotoViewController.imageId = imageId
+            editPhotoViewController.imagePrix = imagePrix
         }
     }
     
     func cellSuppTapped(sender : UITapGestureRecognizer) {
         
-        var tapLocation = sender.location(in: self.collView)
-        var NSIndexPath = self.collView.indexPathForItem(at: tapLocation)!
+        var tapLocation = sender.location(in: self.collectionView)
+        var NSIndexPath = self.collectionView.indexPathForItem(at: tapLocation)!
         
         let path = NSSearchPathForDirectoriesInDomains(
             .documentDirectory, .userDomainMask, true
@@ -369,6 +381,8 @@ class DestinatairesViewController: UIViewController,  UICollectionViewDelegateFl
         let path = NSSearchPathForDirectoriesInDomains(
             .documentDirectory, .userDomainMask, true
             ).first!
+        
+        var idP: Int64 = 0
         print(path)
         do{
             let db = try Connection("\(path)/db.sqlite3")
@@ -404,7 +418,11 @@ class DestinatairesViewController: UIViewController,  UICollectionViewDelegateFl
                     let preferences = UserDefaults.standard
                     idU = Int64.init(preferences.string(forKey: "userId")! as String)!
                     let idPanier = Int64.init(preferences.string(forKey: "idPanier")! as String)!
-                    try db.run(photoModifiee.insert(idPanierCol <- idPanier, idUserCol <- idU, uriFinaleCol <- self.urlFinale))
+                    photo.idPanier = idPanier
+                    photo.idUser = idU
+                    photo.idMasque = imageId!
+                    photo.prix = Float.init(imagePrix!)
+                     idP = try db.run(photoModifiee.insert(idPanierCol <- idPanier, idUserCol <- idU, uriFinaleCol <- imageUrl, idMasqueCol <- imageId, uriOrigineCol <- urlFinale, prixCol <- imagePrix))
                     
                 } catch {
                     print("récupération impossible: \(error)")
@@ -424,6 +442,7 @@ class DestinatairesViewController: UIViewController,  UICollectionViewDelegateFl
             let idUser = Expression<Int64?>("id_user")
             let id = Expression<Int64?>("id")
             let prixHT = Expression<Double?>("prixHT")
+            let prixTTC = Expression<Double?>("prixTTC")
             
             panierModel.nbPhotos += 1
             
@@ -431,11 +450,15 @@ class DestinatairesViewController: UIViewController,  UICollectionViewDelegateFl
                 do {
                     do {
                         var prix = Array(try db.prepare(panier.filter(idUser == idU)))[0].get(prixHT)
+                        var prixTTCval = Array(try db.prepare(panier.filter(idUser == idU)))[0].get(prixTTC)
                         print(prix)
                         if(prix == nil){
                             prix = 0
                         }
-                        if try db.run(panier.filter(id == panierModel.id).update(nbPhotos <- panierModel.nbPhotos, prixHT <- (prix! + Double.init(photo.prix) ) )) > 0 {
+                        if(prixTTCval == nil){
+                            prix = 0
+                        }
+                        if try db.run(panier.filter(id == panierModel.id).update(nbPhotos <- panierModel.nbPhotos, prixHT <- (prix! + Double.init(photo.prix)), prixTTC <- (prix! + Double.init(photo.prix)) * 1.206 )) > 0 {
                             print("updated alice")
                         } else {
                             print("alice not found")
@@ -450,6 +473,41 @@ class DestinatairesViewController: UIViewController,  UICollectionViewDelegateFl
             }catch{
                 print("création de la table panier impossible: \(error)")
             }
+        }
+        catch{
+            print("connection impossible: \(error)")
+        }
+        
+        do{
+            let db = try Connection("\(path)/db.sqlite3")
+            let destinataires = Table("destinataires")
+            let id = Expression<Int64>("id")
+            let idMessage = Expression<Int64?>("idMessage")
+            let idPhoto = Expression<Int64?>("idPhoto")
+            let idUser = Expression<Int64?>("idUser")
+            let civiliteDest = Expression<String?>("civilite")
+            let nomDest = Expression<String?>("nom")
+            let prenomDest = Expression<String?>("prenom")
+            let mobileDest = Expression<String?>("mobile")
+            let emailDest = Expression<String?>("email")
+            let rueDest = Expression<String?>("rue")
+            let cpDest = Expression<String?>("cp")
+            let villeDest = Expression<String?>("ville")
+            
+            do{
+                    for dest in destinatairesArray{
+                        if try db.run(destinataires.filter(id == dest.id).update(idPhoto <- idP)) > 0 {
+                            print("updated alice")
+                        } else {
+                            print("alice not found")
+                        }
+                        
+                    }
+                    
+                } catch {
+                    print("récupération impossible: \(error)")
+                }
+            
         }
         catch{
             print("connection impossible: \(error)")
