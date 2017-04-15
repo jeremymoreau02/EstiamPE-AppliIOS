@@ -189,7 +189,7 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
                                     
                     self.prixHTTotal.text = String.init(panierModel.prixHT) + "€"
                     self.prixTTCTotal.text = String.init(panierModel.prixTTC) + "€"
-                    self.nbPhotosTotal.text = String.init(panierModel.nbPhotos) + "€"
+                    self.nbPhotosTotal.text = String.init(panierModel.nbPhotos)
                 } catch {
                     print("récupération impossible: \(error)")
                 }
@@ -395,7 +395,7 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
         
         self.prixHTTotal.text = String.init(panierModel.prixHT) + "€"
         self.prixTTCTotal.text = String.init(panierModel.prixTTC) + "€"
-        self.nbPhotosTotal.text = String.init(panierModel.nbPhotos) + "€"
+        self.nbPhotosTotal.text = String.init(panierModel.nbPhotos)
     
     
         panierTableView.reloadData()
@@ -503,7 +503,7 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
         
         self.prixHTTotal.text = String.init(panierModel.prixHT) + "€"
         self.prixTTCTotal.text = String.init(panierModel.prixTTC) + "€"
-        self.nbPhotosTotal.text = String.init(panierModel.nbPhotos) + "€"
+        self.nbPhotosTotal.text = String.init(panierModel.nbPhotos)
         
         
 
@@ -567,7 +567,7 @@ class PanierTableViewController: UIViewController, UITableViewDelegate, UITableV
         
         self.prixHTTotal.text = String.init(panierModel.prixHT) + "€"
         self.prixTTCTotal.text = String.init(panierModel.prixTTC) + "€"
-        self.nbPhotosTotal.text = String.init(panierModel.nbPhotos) + "€"
+        self.nbPhotosTotal.text = String.init(panierModel.nbPhotos)
         
         listePhotos.remove(at: (NSIndexPath?[1])!)
         

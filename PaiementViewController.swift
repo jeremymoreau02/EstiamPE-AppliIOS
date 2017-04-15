@@ -464,17 +464,11 @@ class PaiementViewController: UIViewController , PayPalPaymentDelegate{
             var tabUrl = urlA.components(separatedBy: "/")
             var urlGood = tabUrl[tabUrl.count - 1]
             var usId = photosArray[i].idUser as Int64
-            /*var ui = UIImage(contentsOfFile: urlA)!
+            var ui = UIImage(contentsOfFile: urlA)!
             var jpeg = UIImageJPEGRepresentation(UIImage(contentsOfFile: urlA)!, 80)!
             
             print(urlGood)
-            
-            let backgroundQ = DispatchQueue.global(qos: .default)
-            let group = DispatchGroup()
-            
-             group.enter()
-            
-            backgroundQ.async(group: group,  execute: {Alamofire.upload(multipartFormData: { (multipartFormData) in
+            Alamofire.upload(multipartFormData: { (multipartFormData) in
                 multipartFormData.append(UIImageJPEGRepresentation(UIImage(contentsOfFile: urlA)!, 80)! , withName: "photo", fileName: urlGood, mimeType: "image/jpg")
                     multipartFormData.append(String.init(usId).data(using: .utf8)!, withName: "userID")
                 
@@ -488,21 +482,16 @@ class PaiementViewController: UIViewController , PayPalPaymentDelegate{
                         if let data = response.result.value{
                             print(data)
                         }
-                        group.leave()
                         
                     }
                     
                 case .failure(let encodingError):
                     print(encodingError)
-                    group.leave()
                     
                 }
                 
-            })})
-            
-            group.notify(queue: DispatchQueue.main, execute: {
-                print("All Done")
-            })*/
+            })
+            sleep(5000)
             
             
         }
